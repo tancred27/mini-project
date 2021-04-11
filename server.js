@@ -8,6 +8,7 @@ app.get("/login", (req, res) => {
 
 app.use("/auth", require("./routes/auth"));
 app.use("/college", require("./routes/college"));
+app.use("/user", require("./routes/user"));
 
 const port = 5000;
 app.listen(port, () => {
