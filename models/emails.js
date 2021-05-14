@@ -11,5 +11,5 @@ const emailSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("emailSchema");
+module.exports = mongoose.model("email", emailSchema);
 

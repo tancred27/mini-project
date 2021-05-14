@@ -21,9 +21,8 @@ const userSchema = mongoose.Schema({
         unique: true
     },
     college: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
-        ref: "college"
     },
     branch: {
         type: String,
@@ -31,7 +30,8 @@ const userSchema = mongoose.Schema({
     },
     dob: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     },
     company: {
         type: String,
@@ -52,6 +52,13 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    pfp: {
+        type: Boolean
+    },
+    activated: {
+        type: Boolean,
+        default: false
     }
 });
 
