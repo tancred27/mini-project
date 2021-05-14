@@ -124,6 +124,24 @@ router.post("/college/register", async(req, res) => {
         res.status(500).send("internal server error");
     };
 });
+/**
+ * @route POST /auth/college/login
+ * @desc endpoint for college login
+ */
+router.post("/college/login", async (req, res) => {
+    const { email, password } = req.body;
+    const college = await College.findOne({ email });
+    if (!college) {
+        return res.json({ "msg": "college with given email does not exist!" });
+    }
+    const match = await bcrypt.compare(password, college.password);
+    if (!match) {
+        return res.json({ "msg": "invalid credentials!" });
+    }
+    if(!college.verified) return res.json({ "msg": "account has not been activated yet, please check your email!"});
+    res.status(200).json({ "msg": "login successful!", token: Buffer.from(college.email).toString('base64'), college });
+});
+
 
 /**
  * @route GET /college/activate/:collegeName
