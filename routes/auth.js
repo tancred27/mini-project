@@ -31,10 +31,10 @@ router.post("/user/register", async (req, res) => {
         if (user && user.activated) {
             return res.status(400).json({ msg: "user with given email already exists!" });
         } 
-        let user = await User.findOne({ rollNumber });
+        user = await User.findOne({ rollNumber });
         if (user && user.activated) {
             return res.status(400).json({ msg: "user with given Roll Number already exists!" });
-        } 
+        }
         else {
             const salt = await bcrypt.genSalt(10);
             const encryptedPass = await bcrypt.hash(password, salt);
@@ -124,6 +124,7 @@ router.post("/college/register", async(req, res) => {
         res.status(500).send("internal server error");
     };
 });
+
 /**
  * @route POST /auth/college/login
  * @desc endpoint for college login
@@ -141,7 +142,6 @@ router.post("/college/login", async (req, res) => {
     if(!college.verified) return res.json({ "msg": "account has not been activated yet, please check your email!"});
     res.status(200).json({ "msg": "login successful!", token: Buffer.from(college.email).toString('base64'), college });
 });
-
 
 /**
  * @route GET /college/activate/:collegeName
@@ -161,6 +161,5 @@ router.post("/college/login", async (req, res) => {
         res.status(500).send("Server Error!");
     }
 });
-
 
 module.exports = router;
