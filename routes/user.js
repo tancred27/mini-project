@@ -7,7 +7,6 @@ const auth = require("../middleware/auth");
  * @desc fetch data of logged in user
  */
 router.get('/', auth, async(req, res) => {
-    res = cors(res);
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);

@@ -1,18 +1,15 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const config = require("config");
 const PORT = config.get("PORT") || 4000;
 const connectDB = require("./config/db");
 
 connectDB();
 
-global.cors = (res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return res;
-}
-
 // Use Middleware:
 app.use(express.json({ extended: false }));
+app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 
 // Routes:
 app.use("/auth", require("./routes/auth"));

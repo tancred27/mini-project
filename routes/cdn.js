@@ -30,7 +30,6 @@ const upload = multer({
  * @desc endpoint to fetch user pfp
  */
 router.get("/:id", (req, res) => {
-    cors(res);
     const { id } = req.params;
     res.sendFile(path.resolve(`/assets/${id}.jpg`), (err) => {
         if (err) console.log(err.message);
@@ -42,7 +41,6 @@ router.get("/:id", (req, res) => {
  * @desc endpoint to upload user pfp
  */
 router.post("/:id", upload.single("file"), (req, res) => {
-    cors(res);
     const { id } = req.params;
     fs.readFile(`./assets/${req.file.originalname}`, (err, data) => {
         if (err) {

@@ -25,7 +25,6 @@ const sendEmail = (msg) => {
  * @desc endpoint for user to register
  */
 router.post("/user/register", async (req, res) => {
-    res = cors(res);
     const { name, rollNumber, email, mobile, college, branch, dob, company, info, year, password } = req.body;
     console.log(name, rollNumber, email, mobile, college, branch, dob, company, info, year, password);
     try {
@@ -68,7 +67,6 @@ router.post("/user/register", async (req, res) => {
  * @desc endpoint for user to login
  */
 router.post("/user/login", async (req, res) => {
-    res = cors(res);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -93,7 +91,6 @@ router.post("/user/login", async (req, res) => {
  * @desc endpoint to activate user's account
  */
 router.get("/user/activate/:id", async (req, res) => {
-    res = cors(res);
     const { id } = req.params;
     var user = await User.findById(id);
     if (!user) {
@@ -113,7 +110,6 @@ router.get("/user/activate/:id", async (req, res) => {
  * @desc endpoint to register college
  */
 router.post("/college/register", async(req, res) => {
-    res = cors(res);
     const { collegeName, name, email, mobile, password } = req.body;
     try {
         let user = await College.findOne({ email });
@@ -145,7 +141,6 @@ router.post("/college/register", async(req, res) => {
  * @desc endpoint for college login
  */
 router.post("/college/login", async (req, res) => {
-    res = cors(res);
     const { email, password } = req.body;
     const college = await College.findOne({ email });
     if (!college) {
@@ -170,7 +165,6 @@ router.post("/college/login", async (req, res) => {
  * @desc endpoint to activate college account
  */
  router.get("/college/activate/:id", async (req, res) => {
-    res = cors(res);
     const { id } = req.params;
     var college = await College.findById(id);
     if (!college) {
