@@ -6,6 +6,11 @@ const connectDB = require("./config/db");
 
 connectDB();
 
+global.cors = (res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res;
+}
+
 // Use Middleware:
 app.use(express.json({ extended: false }));
 

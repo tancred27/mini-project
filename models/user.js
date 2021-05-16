@@ -18,10 +18,12 @@ const userSchema = mongoose.Schema({
     mobile: {
         type: Number,
         required: true,
+        unique: true
     },
     college: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "college",
+        required: true
     },
     branch: {
         type: String,
@@ -41,7 +43,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     year: {
-        type: String,
+        type: Number,
         required: true
     },
     verified: {
@@ -53,7 +55,8 @@ const userSchema = mongoose.Schema({
         required: true
     },
     pfp: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     activated: {
         type: Boolean,

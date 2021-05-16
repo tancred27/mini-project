@@ -1,60 +1,77 @@
 // verify, events
 const express = require("express");
 const router = express.Router();
+const College = require("../models/college");
+const auth = require("../middleware/auth");
 
 /**
- * @Route: /users/:id
- * method: GET
- * desc: get all users with given college ID
+ * @route GET /college/
+ * @desc fetch data of logged in user
  */
-router.get("/users/:id", (req, res) => {
+router.get('/', auth, async(req, res) => {
+    res = cors(res);
+    try {
+        const college = await College.findById(req.college.id).select('-password');
+        res.json(college);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server Error!');
+    }
+});
+
+/**
+ * @route GET /college/users/:id
+ * @desc get all users with given college ID
+ */
+router.get("/users/:id", auth, (req, res) => {
+    res = cors(res);
     let id = req.params.id;
     res.send(`verified user: ${id}`);
 });
 
 /**
- * @Route: /verify/:id
- * method: GET
- * desc: verify a user with given ID as an alumnus
+ * @route GET /college/verify/:id
+ * @desc verify a user with given ID as an alumnus
  */
-router.get("/verify/:id", (req, res) => {
+router.get("/verify/:id", auth, (req, res) => {
+    res = cors(res);
     let id = req.params.id;
     res.send(`verified user: ${id}`);
 });
 
 /**
- * @Route: /events/:id
- * method: GET
- * desc: get all events of a college with given ID
+ * @route GET /college/events/:id
+ * @desc get all events of a college with given ID
  */
-router.get("/events/:id", (req, res) => {
+router.get("/events/:id", auth, (req, res) => {
+    res = cors(res);
     res.send("events of college");
 });
 
 /**
- * @Route: /events/:id
- * method: POST
- * desc: add a new event to given college ID
+ * @route POST /college/events/:id
+ * @desc add a new event to given college ID
  */
-router.post("/events/:id", (req, res) => {
+router.post("/events/:id", auth, (req, res) => {
+    res = cors(res);
     res.send("Inserted event");
 });
 
 /**
- * @Route: /events/:cid/:id
- * method: PUT
- * desc: edit an event with given ID
+ * @route PUT /college/events/:cid/:id
+ * @desc edit an event with given ID
  */
- router.put("/events/:id", (req, res) => {
+ router.put("/events/:id", auth, (req, res) => {
+    res = cors(res);
     res.send("Updated event");
 });
 
 /**
- * @Route: /events/:cid/:id
- * method: DELETE
- * desc: delete an event with given ID
+ * @route DELETE /college/events/:cid/:id
+ * @desc delete an event with given ID
  */
- router.delete("/events/:cid/:id", (req, res) => {
+ router.delete("/events/:cid/:id", auth, (req, res) => {
+    res = cors(res);
     res.send("Deleted event");
 });
 
