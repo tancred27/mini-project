@@ -6,11 +6,25 @@ const auth = require("../middleware/auth");
 
 /**
  * @route GET /college/
- * @desc fetch data of logged in user
+ * @desc fetch data of logged in college
  */
 router.get('/', auth, async(req, res) => {
     try {
         const college = await College.findById(req.college.id).select('-password');
+        res.json(college);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server Error!');
+    }
+});
+
+/**
+ * @route GET /college/:id
+ * @desc fetch data of college with given id
+ */
+router.get('/:id', auth, async(req, res) => {
+    try {
+        const college = await College.findById(req.params.id).select('-password');
         res.json(college);
     } catch (error) {
         console.log(error.message);

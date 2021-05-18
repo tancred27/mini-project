@@ -12,10 +12,10 @@ app.use(express.json({ extended: false }));
 app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 
 // Routes:
-app.use("/auth", require("./routes/auth"));
-app.use("/college", require("./routes/college"));
-app.use("/user", require("./routes/user"));
-app.use("/cdn", require("./routes/cdn"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/college", require("./routes/college"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/cdn", require("./routes/cdn"));
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
