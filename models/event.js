@@ -4,6 +4,10 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    college: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "college"
+    },
     description: {
         type: String,
         required: true

@@ -54,11 +54,10 @@ router.post("/user/register", async (req, res) => {
                 text: `Kindly activate your account by clicking on the link - http://localhost:5000/auth/user/activate/${doc._id}`
             };
             sendEmail(msg);
-            res.status(200).json({ "msg": "registered successfully!" });
+            sendRes(res, 200);
         }
-    } catch(err) {
-        console.log(err.message);
-        res.status(500).send("internal server error");
+    } catch(error) {
+        handleCatch(res, 500, error)
     };
 });
 
@@ -70,11 +69,11 @@ router.post("/user/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-        return res.json({ "msg": "user with given email does not exist!" });
+        return res.status(404).json({ "msg": "user with given email does not exist!" });
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-        return res.json({ "msg": "invalid credentials!" });
+        return res.status(400).json({ "msg": "invalid credentials!" });
     }
     if(!user.activated) return res.json({ "msg": "account has not been activated yet, please check your email!"});
     const payload = {
@@ -94,14 +93,13 @@ router.get("/user/activate/:id", async (req, res) => {
     const { id } = req.params;
     var user = await User.findById(id);
     if (!user) {
-        return res.send("Invalid link");
+        return res.status(400).json({ "msg": "Invalid link" });
     }
     try {
         user = await User.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
-        res.status(200).send("Account activated, please head to login page");
+        res.status(200).json({ "msg": "Account activated, please head to login page" });
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send("Server Error!");
+        handleCatch(res, 500, error);
     }
 });
 
@@ -129,10 +127,9 @@ router.post("/college/register", async(req, res) => {
             text: `Kindly activate your account by clicking on the link - http://localhost:5000/auth/college/activate/${doc._id}`
         };
         sendEmail(msg);
-        res.status(200).json({ "msg": "registered successfully!" });
-    } catch(err) {
-        console.log(err.message);
-        res.status(500).send("internal server error");
+        sendRes(res, 200);
+    } catch(error) {
+        handleCatch(res, 500, error);
     };
 });
 
@@ -168,14 +165,13 @@ router.post("/college/login", async (req, res) => {
     const { id } = req.params;
     var college = await College.findById(id);
     if (!college) {
-        return res.send("Invalid link");
+        return res.status(400).json({ "msg": "Invalid link" });
     }
     try {
         college = await College.findByIdAndUpdate(id, { $set: { verified: true } }, { new: true });
-        res.status(200).send("Account activated, please head to login page");
+        res.status(200).json({ "msg": "Account activated, please head to login page" });
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send("Server Error!");
+         handleCatch(res, 500, error);
     }
 });
 

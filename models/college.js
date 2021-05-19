@@ -21,8 +21,7 @@ const collegeSchema = mongoose.Schema({
         unique: true
     },
     events: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "event",
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "event" }],
         default: []
     },
     verified: {

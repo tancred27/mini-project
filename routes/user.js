@@ -8,11 +8,10 @@ const auth = require("../middleware/auth");
  */
 router.get('/', auth, async(req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password');
-        res.json(user);
+        const user = await User.findById(req.user).select('-password');
+        res.status(200).json(user);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Server Error!');
+        handleCatch(res, 500, error);
     }
 });
 
@@ -23,10 +22,32 @@ router.get('/', auth, async(req, res) => {
 router.get('/:id', auth, async(req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-password');
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Server Error!');
+        handleCatch(res, 500, error);
+    }
+});
+
+/**
+ * @route PUT /user/
+ * @desc update data of logged in user
+ */
+router.put("/", auth, async (req, res) => {
+    let user = await User.findById(req.user);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+    const { email, company, info, password } = req.body;
+    
+    // Build User Object:
+    const userFields = {};
+    if (email) userFields.email = email;
+    if (company) userFields.company = company;
+    if (info) userFields.info = info;
+    if (password) userFields.type = password;
+    try {
+        user = await User.findByIdAndUpdate(user._id, { $set: userFields }, { new: true });
+        res.status(200).json(user);
+    } catch (error) {
+        handleCatch(res, 500, error);
     }
 });
 

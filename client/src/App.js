@@ -4,10 +4,15 @@ import Register from "./components/auth/register";
 import Update from "./components/auth/update";
 import Navbar from "./components/layout/navbar";
 import Alert from "./components/layout/alert";
+import AuthState from "./context/auth/AuthState";
+import setAuthToken from "./utils/setAuthToken";
+
+localStorage.token && setAuthToken(localStorage.token);
 
 function App() {
+  
   return (
-    <div>
+    <AuthState>
       <Router>
         <Navbar />
         <div className="container">
@@ -19,7 +24,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </div>
+    </AuthState>
   );
 }
 

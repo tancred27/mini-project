@@ -45,7 +45,7 @@ router.post("/:id", upload.single("file"), (req, res) => {
     fs.readFile(`./assets/${req.file.originalname}`, (err, data) => {
         if (err) {
             console.log(err.message);
-            res.status(500).send("NO WORK");
+            res.status(500).json({ "msg": "upload unsuccessful" });
         }
         else {
             console.log(data);
@@ -53,7 +53,7 @@ router.post("/:id", upload.single("file"), (req, res) => {
                 if (err) console.log("err renaming file : ", err.message);
                 else console.log("file renamed");
             });
-            res.status(200).send("UPLOAD IS WORK");
+            res.status(200).json({ "msg": "upload successful" });
         }
     });
 });
