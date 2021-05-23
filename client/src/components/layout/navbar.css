@@ -1,0 +1,30 @@
+.navbar {
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 7vh;
+  width: 99vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #14142b;
+  color: antiquewhite;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 11rem;
+}
+
+.nav-link {
+  color: antiquewhite;
+  cursor: pointer;
+}

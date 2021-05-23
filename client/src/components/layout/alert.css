@@ -1,0 +1,14 @@
+.alert {
+  width: 20rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rbga(0, 0, 0, 0.1);
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+.alert-success {
+  background-color: #53d888;
+}
+.alert-error {
+  background-color: #ff0038;
+}
