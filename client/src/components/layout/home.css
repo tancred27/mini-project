@@ -1,0 +1,56 @@
+.form-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.data-container {
+  width: 85%;
+}
+
+.main-header {
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.para-header {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.para-content {
+  margin-top: 30px;
+}
+
+.para-info {
+  font-weight: 100;
+  /* font-size: 1.1rem; */
+  font-style: normal;
+  margin-top: 5px;
+}
+
+.para-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.para-button {
+  width: 8rem;
+  height: 2.2rem;
+  cursor: pointer;
+  line-height: 2;
+  color: white;
+  background-color: #a6c;
+  text-align: center;
+  font-size: 17px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.login {
+  background-color: #4285f4 !important;
+}

@@ -1,12 +1,10 @@
 import "../auth.css";
 
-const Register = () => {
-    return (
-        <div className="auth-container">
-            <div className="auth-left">
-            </div>
-            <div className="auth-right">
-                <div className="auth-form">
+const Register = ({ display }) => {
+    return display ? (
+        <div>
+            <div className="heading">Register as an alumnus</div><br />
+            <div className="auth-form">
                 <form>
                     <div className="register-label"><i className="fas fa-user"></i> Name</div>
                     <input className="form-input" type="text" name="name" />
@@ -22,9 +20,8 @@ const Register = () => {
                     <div className="submit-button"><i className="fas fa-user-plus"></i> register</div>
                 </form>
             </div>
-            </div>
         </div>
-    )
+    ) : null;
 };
 
 export default Register;
