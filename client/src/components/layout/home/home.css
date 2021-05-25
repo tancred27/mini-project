@@ -1,4 +1,5 @@
 .form-selector {
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,22 +7,55 @@
 }
 
 .data-container {
-  width: 85%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.main-img-container {
+  width: 40%;
 }
 
 .main-header {
+  margin-top: 30px;
   width: 100%;
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
+  min-height: 90vh;
+}
+
+.main-img-connect {
+  object-fit: contain;
+  width: 400px;
+}
+
+.main-img {
+  object-fit: contain;
+  width: 1350px;
+}
+
+.main-img-grad {
+  transform: translateY(50px);
+  z-index: -1;
+  object-fit: contain;
+  width: 400px;
 }
 
 .para-header {
-  font-size: 1.8rem;
-  font-weight: 500;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 .para-content {
+  width: 60%;
+  margin-top: 30px;
+}
+
+.para-content-grad {
+  width: 50%;
   margin-top: 30px;
 }
 

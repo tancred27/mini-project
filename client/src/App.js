@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./components/layout/home";
+import Home from "./components/layout/home/home";
 import Update from "./components/auth/update";
-import Navbar from "./components/layout/navbar";
-import Alert from "./components/layout/alert";
+import Navbar from "./components/layout/navbar/navbar";
+import Footer from "./components/layout/footer/footer";
+import Alert from "./components/layout/alert/alert";
 import AuthState from "./context/auth/AuthState";
 import setAuthToken from "./utils/setAuthToken";
 import AlertState from "./context/alert/AlertState";
@@ -24,6 +25,7 @@ function App() {
               <Route exact path="/update" component={Update} />
             </Switch>
           </div>
+          <Footer />
         </Router>
       </AlertState>
     </AuthState>
