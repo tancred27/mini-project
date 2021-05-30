@@ -1,18 +1,21 @@
-// verify, events
 const express = require("express");
 const router = express.Router();
 const College = require("../models/college");
 const User = require("../models/user");
-const Event = require("../models/event");
+const Event = require("../models/events");
 const auth = require("../middleware/auth");
 
 /**
- * @route GET /college/
+ * @route GET /api/college/
  * @desc fetch data of logged in college
  */
 router.get('/', auth, async(req, res) => {
     try {
-        const college = await (await College.findById(req.college.id).select('-password')).populate("events");
+        const college = await (await College.findById(req.college.id).select('-password')).populate("events").execPopulate();
+        if (!college) {
+            console.log("error finding college");
+            return res.status(404).json({ "msg": "College not found!" });
+        }
         res.status(200).json(college);
     } catch (error) {
         handleCatch(res, 500, error);
@@ -20,12 +23,33 @@ router.get('/', auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/:id
+ * @route GET /api/college/list
+ * @desc fetch list of all colleges
+ */
+router.get('/list', auth, async(req, res) => {
+    try {
+        const colleges = await College.find().select('-password');
+        if (!colleges) {
+            console.log("error finding colleges");
+            return res.status(404).json({ "msg": "Colleges not found!" });
+        }
+        res.status(200).json(colleges);
+    } catch (error) {
+        handleCatch(res, 500, error);
+    }
+});
+
+/**
+ * @route GET /api/college/:id
  * @desc fetch data of college with given id
  */
 router.get('/:id', auth, async(req, res) => {
     try {
-        const college = await (await College.findById(req.params.id).select('-password')).populate("events");
+        const college = await (await College.findById(req.params.id).select('-password')).populate("events").execPopulate();
+        if (!college) {
+            console.log("error finding college");
+            return res.status(404).json({ "msg": "College not found!" });
+        }
         res.status(200).json(college);
     } catch (error) {
         handleCatch(res, 500, error);
@@ -33,11 +57,11 @@ router.get('/:id', auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/list
+ * @route GET /api/college/list
  * @desc get data of all colleges
  */
 router.get('/', auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     try {
         const college = await College.findById(id);
         if (!college) {
@@ -52,11 +76,11 @@ router.get('/', auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/users
+ * @route GET /api/college/users
  * @desc get users of logged in college
  */
 router.get("/users", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     try {
         const college = await College.findById(id);
         if (!college) {
@@ -71,7 +95,7 @@ router.get("/users", auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/alumni/:id
+ * @route GET /api/college/alumni/:id
  * @desc get alumni of college with given id
  */
 router.get("/alumni/:id", auth, async(req, res) => {
@@ -90,7 +114,7 @@ router.get("/alumni/:id", auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/verify/:id
+ * @route GET /api/college/verify/:id
  * @desc verify a user with given ID as an alumnus
  */
 router.get("/verify/:id", auth, async(req, res) => {
@@ -99,7 +123,7 @@ router.get("/verify/:id", auth, async(req, res) => {
     if (!user) {
         return res.status(404).json({ "msg": "User not found!" });
     }
-    if (user.college !== req.user) {
+    if (user.college !== req.user.id) {
         return sendRes(res, 403);
     }
     try {
@@ -111,13 +135,13 @@ router.get("/verify/:id", auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/events
+ * @route GET /api/college/events
  * @desc get all events of logged in college
  */
 router.get("/events", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     try {
-        let college = await (await College.findById(id)).populate("events");
+        let college = await (await College.findById(id)).populate("events").execPopulate();
         if (!college) {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
@@ -130,19 +154,19 @@ router.get("/events", auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/:id/events
+ * @route GET /api/college/:id/events
  * @desc get all events of college with given id
  */
 router.get("/:id/events", auth, async(req, res) => {
     const { id } = req.params;
     try {
-        let user = await User.findById(req.user);
+        let user = await User.findById(req.user.id);
         if (!user) {
             console.log("error finding user");
             return res.status(404).json({ "msg": "User not found!" });
         }
         if (user.verified && user.college === id){
-            let college = await (await College.findById(id)).populate("events");
+            let college = await (await College.findById(id)).populate("events").execPopulate();
             if (!college) {
                 console.log("error finding college");
                 return res.status(404).json({ "msg": "College not found!" });
@@ -157,11 +181,11 @@ router.get("/:id/events", auth, async(req, res) => {
 });
 
 /**
- * @route GET /college/events/:id
+ * @route GET /api/college/events/:id
  * @desc get event with given id of logged in college
  */
 router.get("/events/:id", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     let eventId = req.params.id;
     try {
         let event = await Event.findById(eventId);
@@ -180,11 +204,11 @@ router.get("/events/:id", auth, async(req, res) => {
 });
 
 /**
- * @route POST /college/events
+ * @route POST /api/college/events
  * @desc add a new event to logged in college
  */
 router.post("/events", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     const { name, description, date, venue, link } = req.body; 
     try {
         let college = await College.findById(id);
@@ -207,11 +231,11 @@ router.post("/events", auth, async(req, res) => {
 });
 
 /**
- * @route PUT /college/events/:id
+ * @route PUT /api/college/events/:id
  * @desc edit an event with given ID
  */
  router.put("/events/:id", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     const eventId = req.params.id;
     const { name, description, date, venue, link } = req.body; 
     try {
@@ -223,7 +247,7 @@ router.post("/events", auth, async(req, res) => {
         if (event.college !== id) {
             return sendRes(res, 403);
         }
-        await event.findByIdAndUpdate(eventId, { $set: {
+        await Event.findByIdAndUpdate(eventId, { $set: {
             name, description, date, venue, link
         } }, { new: true });
         sendRes(res, 200);
@@ -233,11 +257,11 @@ router.post("/events", auth, async(req, res) => {
 });
 
 /**
- * @route DELETE /college/events/:id
+ * @route DELETE /api/college/events/:id
  * @desc delete an event with given ID
  */
  router.delete("/events/:id", auth, async(req, res) => {
-    const id = req.user;
+    const id = req.user.id;
     const eventId = req.params.id;
     try {
         let event = await Event.findById(eventId);

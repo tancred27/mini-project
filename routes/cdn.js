@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 /**
- * @route GET /cdn/:id 
+ * @route GET /api/cdn/:id 
  * @desc endpoint to fetch user pfp
  */
 router.get("/:id", (req, res) => {
@@ -37,7 +37,7 @@ router.get("/:id", (req, res) => {
 });
 
 /**
- * @route POST /cdn/:id
+ * @route POST /api/cdn/:id
  * @desc endpoint to upload user pfp
  */
 router.post("/:id", upload.single("file"), (req, res) => {

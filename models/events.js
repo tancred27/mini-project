@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const eventSchema = mongoose.Schema({
     name: {
         type: String,
@@ -22,8 +23,9 @@ const eventSchema = mongoose.Schema({
         required: true
     },
     link: {
-        type: String
+        type: String,
+        required: true
     }
 });
 
-mongoose.exports = mongoose.model("events", eventSchema);
+module.exports = mongoose.model("events", eventSchema);

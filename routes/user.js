@@ -3,12 +3,12 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 /**
- * @route GET /user/
+ * @route GET /api/user/
  * @desc fetch data of logged in user
  */
 router.get('/', auth, async(req, res) => {
     try {
-        const user = await User.findById(req.user).select('-password');
+        const user = await User.findById(req.user.id).select('-password');
         res.status(200).json(user);
     } catch (error) {
         handleCatch(res, 500, error);
@@ -16,7 +16,7 @@ router.get('/', auth, async(req, res) => {
 });
 
 /**
- * @route GET /user/:id
+ * @route GET /api/user/:id
  * @desc fetch data of user with given id
  */
 router.get('/:id', auth, async(req, res) => {
@@ -29,11 +29,11 @@ router.get('/:id', auth, async(req, res) => {
 });
 
 /**
- * @route PUT /user/
+ * @route PUT /api/user/
  * @desc update data of logged in user
  */
 router.put("/", auth, async (req, res) => {
-    let user = await User.findById(req.user);
+    let user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ msg: "User not found" });
     const { email, company, info, password } = req.body;
     

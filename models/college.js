@@ -20,10 +20,9 @@ const collegeSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    events: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "event" }],
-        default: []
-    },
+    events: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "events", default: null }
+    ],
     verified: {
         type: Boolean,
         default: false
