@@ -28,7 +28,8 @@ const AuthState = (props) => {
         isAuthenticated: false,
         loading: true,
         user: null,
-        error: null
+        error: null,
+        type: null
     };
 
     const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -40,9 +41,9 @@ const AuthState = (props) => {
         }
         try {
             const res = await axios.get(`/api/${type}`);
-            dispatch({ type: USER_LOADED, payload: res.data });
+            dispatch({ type: USER_LOADED, payload: res.data, userType: type });
         } catch(error) {
-            dispatch({ type: AUTH_ERROR });
+            dispatch({ type: AUTH_ERROR, payload: error.response.data.msg });
         }
     };
 
@@ -54,7 +55,6 @@ const AuthState = (props) => {
                 type: REGISTER_SUCCESS,
                 payload: res.data,
             });
-            loadUser(type);
         } catch(error) {
             dispatch({
                 type: REGISTER_FAIL,
@@ -69,8 +69,10 @@ const AuthState = (props) => {
             const res = await axios.post(`/api/auth/${type}/login`, formData, config);
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: res.data
+                payload: res.data,
+                userType: type
             });
+            console.log(res);
             loadUser(type);
         } catch(error) {
             dispatch({

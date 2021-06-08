@@ -30,15 +30,15 @@ router.post("/user/register", async (req, res) => {
     try {
         let user = await User.findOne({ email });
         if (user && user.activated) {
-            return res.status(400).json({ msg: "user with given email already exists!" });
+            return res.status(400).json({ msg: "Error : User with given email already exists!" });
         } 
         user = await User.findOne({ rollNumber });
         if (user && user.activated) {
-            return res.status(400).json({ msg: "user with given Roll Number already exists!" });
+            return res.status(400).json({ msg: "Error : User with given Roll Number already exists!" });
         }
         user = await User.findOne({ mobile });
         if (user && user.activated) {
-            return res.status(400).json({ msg: "user with given mobile number already exists!" });
+            return res.status(400).json({ msg: "Error : User with given mobile number already exists!" });
         }
         else {
             const salt = await bcrypt.genSalt(10);
@@ -69,13 +69,15 @@ router.post("/user/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-        return res.status(404).json({ "msg": "user with given email does not exist!" });
+        return res.status(404).json({ "msg": "Error : User with given email does not exist!" });
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-        return res.status(400).json({ "msg": "invalid credentials!" });
+        return res.status(400).json({ "msg": "Error : Invalid credentials!" });
     }
-    if(!user.activated) return res.json({ "msg": "account has not been activated yet, please check your email!"});
+    if(!user.activated) {
+        return res.json({ "msg": "Error : Account has not been activated yet, please check your email!"});
+    }
     const payload = {
         user: {
             id: user._id,
@@ -96,11 +98,11 @@ router.get("/user/activate/:id", async (req, res) => {
     const { id } = req.params;
     var user = await User.findById(id);
     if (!user) {
-        return res.status(400).json({ "msg": "Invalid link" });
+        return res.status(400).json({ "msg": "Error : Invalid link" });
     }
     try {
         user = await User.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
-        res.status(200).json({ "msg": "Account activated, please head to login page" });
+        res.status(200).json("Account activated, please head to login page");
     } catch (error) {
         handleCatch(res, 500, error);
     }
@@ -115,7 +117,7 @@ router.post("/college/register", async(req, res) => {
     try {
         let user = await College.findOne({ email });
         if (user && user.verified) {
-            return res.status(400).json({ msg: "college with given email already exists!" });
+            return res.status(400).json({ msg: "Error : College with given email already exists!" });
         } 
         const salt = await bcrypt.genSalt(10);
         const encryptedPass = await bcrypt.hash(password, salt);
@@ -143,21 +145,25 @@ router.post("/college/register", async(req, res) => {
 router.post("/college/login", async (req, res) => {
     const { email, password } = req.body;
     try {
-        const college = await (await College.findOne({ email })).populate("events").execPopulate();
+        const college = await College.findOne({ email });
         if (!college) {
-            return res.json({ "msg": "college with given email does not exist!" });
+            return res.status(400).json({ "msg": "Error : College with given email does not exist!" });
         }
         const match = await bcrypt.compare(password, college.password);
         if (!match) {
-            return res.json({ "msg": "invalid credentials!" });
+            return res.status(400).json({ "msg": "Error : Invalid credentials!" });
         }
-        if(!college.verified) return res.json({ "msg": "account has not been activated yet, please check your email!"});
+        if(!college.activated) {
+            console.log("acc not activated");
+            return res.status(400).json({ "msg": "Error : Account has not been activated yet, please check your email!" });
+        }
         const payload = {
             user: {
                 id: college._id,
                 type: "college"
             }
         };
+        await college.populate("events").execPopulate();
         jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
             if(err) throw err;
             res.status(200).json({ "msg": "login successful!", token, college });
@@ -175,11 +181,11 @@ router.post("/college/login", async (req, res) => {
     const { id } = req.params;
     var college = await College.findById(id);
     if (!college) {
-        return res.status(400).json({ "msg": "Invalid link" });
+        return res.status(400).json({ "msg": "Error : Invalid link" });
     }
     try {
-        college = await College.findByIdAndUpdate(id, { $set: { verified: true } }, { new: true });
-        res.status(200).json({ "msg": "Account activated, please head to login page" });
+        college = await College.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
+        res.status(200).json("Account activated, please head to login page");
     } catch (error) {
         handleCatch(res, 500, error);
     }

@@ -23,7 +23,7 @@ const collegeSchema = mongoose.Schema({
     events: [
         { type: mongoose.Schema.Types.ObjectId, ref: "events", default: null }
     ],
-    verified: {
+    activated: {
         type: Boolean,
         default: false
     },

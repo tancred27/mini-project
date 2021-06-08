@@ -11,11 +11,12 @@ const auth = require("../middleware/auth");
  */
 router.get('/', auth, async(req, res) => {
     try {
-        const college = await (await College.findById(req.college.id).select('-password')).populate("events").execPopulate();
+        const college = await College.findById(req.params.id);
         if (!college) {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
+        await college.populate("events").execPopulate();
         res.status(200).json(college);
     } catch (error) {
         handleCatch(res, 500, error);
@@ -45,11 +46,12 @@ router.get('/list', auth, async(req, res) => {
  */
 router.get('/:id', auth, async(req, res) => {
     try {
-        const college = await (await College.findById(req.params.id).select('-password')).populate("events").execPopulate();
+       const college = await College.findById(req.params.id);
         if (!college) {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
+        await college.populate("events").execPopulate();
         res.status(200).json(college);
     } catch (error) {
         handleCatch(res, 500, error);
