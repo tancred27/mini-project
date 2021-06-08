@@ -86,7 +86,7 @@ router.post("/user/login", async (req, res) => {
     };
     jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
         if(err) throw err;
-        res.status(200).json({ "msg": "login successful!", token, user });
+        res.status(200).json({ token });
     });
 });
 
@@ -116,9 +116,13 @@ router.post("/college/register", async(req, res) => {
     const { collegeName, name, email, mobile, password } = req.body;
     try {
         let user = await College.findOne({ email });
-        if (user && user.verified) {
+        if (user) {
             return res.status(400).json({ msg: "Error : College with given email already exists!" });
-        } 
+        }
+        user = await College.findOne({ collegeName });
+        if (user) {
+            return res.status(400).json({ msg: "Error : College with given name already exists!" });
+        }
         const salt = await bcrypt.genSalt(10);
         const encryptedPass = await bcrypt.hash(password, salt);
         const doc = new College({
@@ -163,10 +167,9 @@ router.post("/college/login", async (req, res) => {
                 type: "college"
             }
         };
-        await college.populate("events").execPopulate();
         jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
             if(err) throw err;
-            res.status(200).json({ "msg": "login successful!", token, college });
+            res.status(200).json({ token });
         });
     } catch(error) {
         handleCatch(res, 500, error);

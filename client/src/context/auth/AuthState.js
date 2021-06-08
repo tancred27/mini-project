@@ -24,7 +24,6 @@ const config = {
 
 const AuthState = (props) => {
     const initialState = {
-        token: localStorage.getItem("token"),
         isAuthenticated: false,
         loading: true,
         user: null,
@@ -41,7 +40,7 @@ const AuthState = (props) => {
         }
         try {
             const res = await axios.get(`/api/${type}`);
-            dispatch({ type: USER_LOADED, payload: res.data, userType: type });
+            dispatch({ type: USER_LOADED, payload: res.data.college, userType: type });
         } catch(error) {
             dispatch({ type: AUTH_ERROR, payload: error.response.data.msg });
         }
@@ -50,10 +49,10 @@ const AuthState = (props) => {
     // Register user:
     const register = async(formData, type) => {
         try {
-            const res = await axios.post(`/api/auth/${type}/register`, formData, config);
+            await axios.post(`/api/auth/${type}/register`, formData, config);
             dispatch({
                 type: REGISTER_SUCCESS,
-                payload: res.data,
+                payload: "Registration success! Please open the link sent to your email to activate your account!",
             });
         } catch(error) {
             dispatch({
@@ -95,7 +94,6 @@ const AuthState = (props) => {
     return(
         <AuthContext.Provider
             value={{
-                token: state.token,
                 isAuthenticated: state.isAuthenticated,
                 loading: state.loading,
                 user: state.user,

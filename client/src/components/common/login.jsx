@@ -15,6 +15,8 @@ const Login = ({ display, type, history }) => {
         password: ""
     });
     
+    const [visible, setVisible] = useState(false);
+
     const { email, password } = user;
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const Login = ({ display, type, history }) => {
             history.push(type === "user" ? "/profile" : "/events");
         }
         if (error) {
-            setAlert(error, "error");
+            setAlert(error.msg, error.type);
             clearErrors();
         }
         // eslint-disable-next-line
@@ -44,7 +46,14 @@ const Login = ({ display, type, history }) => {
                     <div className="label"><i className="fas fa-envelope"></i> {type === "user" ? "Email" : "College Email"}</div>
                     <input className="form-input" type="email" name="email" value={email} onChange={onChange} required />
                     <div className="label"><i className="fas fa-key"></i> Password</div>
-                    <input className="form-input" type="password" name="password" value={password} onChange={onChange} required />
+                    <div className="password">
+                        <div style={{ width: "90%" }}>
+                            <input style={{ width: "100%", fontSize: "16px" }} type={visible && password ? "text" : "password"} name="password" value={password} onChange={onChange} required /> 
+                        </div>
+                        <div onClick={() => setVisible(!visible)} style={{ width: "10%", cursor: "pointer", display: password ? "block" : "none" }}>
+                            <i class={`fas fa-eye${visible ? "" : "-slash"}`}></i>
+                        </div>
+                    </div>
                     <br /><br />
                     <button className="submit-button" type="submit"><i className="fas fa-sign-in-alt"></i> login</button>
                 </form>
