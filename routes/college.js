@@ -27,7 +27,7 @@ router.get('/', auth, async(req, res) => {
  * @route GET /api/college/list
  * @desc fetch list of all colleges
  */
-router.get('/list', auth, async(req, res) => {
+router.get('/list', async(req, res) => {
     try {
         const colleges = await College.find().select('-password');
         if (!colleges) {
@@ -211,7 +211,7 @@ router.get("/events/:id", auth, async(req, res) => {
  */
 router.post("/events", auth, async(req, res) => {
     const id = req.user.id;
-    const { name, description, date, venue, link } = req.body; 
+    const { name, description, date, venue, link } = sanitizeInput(req.body);
     try {
         let college = await College.findById(id);
         if (!college) {
@@ -239,7 +239,7 @@ router.post("/events", auth, async(req, res) => {
  router.put("/events/:id", auth, async(req, res) => {
     const id = req.user.id;
     const eventId = req.params.id;
-    const { name, description, date, venue, link } = req.body; 
+    const { name, description, date, venue, link } = sanitizeInput(req.body);
     try {
         let event = await Event.findById(eventId);
         if (!event) {

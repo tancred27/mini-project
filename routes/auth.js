@@ -25,8 +25,8 @@ const sendEmail = (msg) => {
  * @desc endpoint for user to register
  */
 router.post("/user/register", async (req, res) => {
-    const { name, rollNumber, email, mobile, college, branch, dob, company, info, year, password } = req.body;
-    console.log(name, rollNumber, email, mobile, college, branch, dob, company, info, year, password);
+    const { name, rollNumber, email, mobile, college, branch, company, info, year, password } = sanitizeInput(req.body);
+    console.log(name, rollNumber, email, mobile, college, branch, company, info, year, password);
     try {
         let user = await User.findOne({ email });
         if (user && user.activated) {
@@ -44,7 +44,7 @@ router.post("/user/register", async (req, res) => {
             const salt = await bcrypt.genSalt(10);
             const encryptedPass = await bcrypt.hash(password, salt);
             const doc = new User({
-                name, rollNumber, email, mobile, college, branch, dob, company, info, year, password: encryptedPass
+                name, rollNumber, email, mobile, college, branch, company, info, year, password: encryptedPass
             });
             await doc.save();
             const msg = {
@@ -66,7 +66,7 @@ router.post("/user/register", async (req, res) => {
  * @desc endpoint for user to login
  */
 router.post("/user/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = sanitizeInput(req.body);
     const user = await User.findOne({ email });
     if (!user) {
         return res.status(404).json({ "msg": "Error : User with given email does not exist!" });
@@ -113,7 +113,7 @@ router.get("/user/activate/:id", async (req, res) => {
  * @desc endpoint to register college
  */
 router.post("/college/register", async(req, res) => {
-    const { collegeName, name, email, mobile, password } = req.body;
+    const { collegeName, name, email, mobile, password } = sanitizeInput(req.body);
     try {
         let user = await College.findOne({ email });
         if (user) {
@@ -147,7 +147,7 @@ router.post("/college/register", async(req, res) => {
  * @desc endpoint for college login
  */
 router.post("/college/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = sanitizeInput(req.body);
     try {
         const college = await College.findOne({ email });
         if (!college) {

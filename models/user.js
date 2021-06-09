@@ -29,11 +29,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    dob: {
-        type: Date,
-        required: true,
-        default: Date.now()
-    },
     company: {
         type: String,
         required: true
@@ -43,7 +38,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     year: {
-        type: Number,
+        type: String,
         required: true
     },
     verified: {

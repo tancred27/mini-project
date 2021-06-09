@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/user");
 const auth = require("../middleware/auth");
 
 /**
@@ -35,7 +36,7 @@ router.get('/:id', auth, async(req, res) => {
 router.put("/", auth, async (req, res) => {
     let user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ msg: "User not found" });
-    const { email, company, info, password } = req.body;
+    const { email, company, info, password } = sanitizeInput(req.body);
     
     // Build User Object:
     const userFields = {};

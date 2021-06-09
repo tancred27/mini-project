@@ -9,9 +9,11 @@
   font-size: 1.2rem;
   animation: 4s fade-out;
 }
+
 .alert-success {
   background-color: #53d888;
 }
+
 .alert-error {
   background-color: #ff0038;
 }

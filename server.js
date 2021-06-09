@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const config = require("config");
 const PORT = config.get("PORT") || 4000;
 const connectDB = require("./config/db");
+const sanitize = require("mongo-sanitize");
 
 connectDB();
 
@@ -24,6 +25,14 @@ global.sendRes = (res, code) => {
 global.handleCatch = (res, code, error) => {
     console.log(error.message);
     sendRes(res, code);
+};
+
+// Sanitize input
+global.sanitizeInput = (input) => {
+    for(const key in input) {
+        input[key] = sanitize(input[key]);
+    }
+    return input;
 };
 
 // Use Middleware:

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Login from "../../common/login";
 import UserRegister from "../../auth/user/register";
 import CollegeRegister from "../../auth/college/register";
@@ -7,8 +7,23 @@ import "./home.css";
 import grad from "../../../assets/grad.svg";
 import connect from "../../../assets/connect.svg";
 import book from "../../../assets/book.svg";
+import AuthContext from "../../../context/auth/AuthContext";
+import jwt from "jsonwebtoken";
 
-const Home = () => {
+const Home = (props) => {
+    const authContext = useContext(AuthContext);
+    const { type, isAuthenticated } = authContext;
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            props.history.push(type === "user" ? "/profile" : "/events");
+        }
+        if (localStorage.getItem("token")) {
+            let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
+            props.history.push(decoded.type === "user" ? "/profile" : "/events");
+        }
+    }, [props.history, type, isAuthenticated])
+
     const [state, setState] = useState({
         userLogin: false,
         userRegister: false,

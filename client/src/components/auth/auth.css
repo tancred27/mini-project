@@ -38,6 +38,10 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
+.wide {
+  width: 1100px;
+}
+
 .label {
   margin-top: 10px;
   color: antiquewhite;
@@ -69,6 +73,27 @@ input {
   border: none;
   outline: none;
   line-height: 1;
+  font: 400 16px poppins, sans-serif;
+}
+
+textarea {
+  background-color: #e5e5e5;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font: 400 16px poppins, sans-serif;
+  padding: 5px;
+}
+
+select {
+  border: none;
+  outline: none;
+  height: 2rem !important;
+  width: 20.5rem !important;
+  padding: 5px;
+  border-radius: 6px;
+  font: 400 16px poppins, sans-serif;
+  background-color: #e5e5e5;
 }
 
 .form-input {
