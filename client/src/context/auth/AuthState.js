@@ -17,8 +17,7 @@ import {
 
 const config = {
     headers: {
-        "Content-Type":
-        "application/json"
+        "Content-Type": "application/json"
     }
 };
 
@@ -40,9 +39,16 @@ const AuthState = (props) => {
         }
         try {
             const res = await axios.get(`/api/${type}`);
-            dispatch({ type: USER_LOADED, payload: res.data.college, userType: type });
+            dispatch({ 
+                type: USER_LOADED,
+                payload: res.data,
+                userType: type
+            });
         } catch(error) {
-            dispatch({ type: AUTH_ERROR, payload: error.response.data.msg });
+            dispatch({
+                type: AUTH_ERROR,
+                payload: error.response.data.msg
+            });
         }
     };
 
@@ -71,7 +77,6 @@ const AuthState = (props) => {
                 payload: res.data,
                 userType: type
             });
-            console.log(res);
             loadUser(type);
         } catch(error) {
             dispatch({

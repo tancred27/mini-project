@@ -1,0 +1,98 @@
+.events-container {
+  min-height: 50vh;
+  width: 100%;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  padding: 20px;
+}
+
+.event-form {
+  background-color: #14142b;
+  padding: 15px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+.label {
+  font-size: 17px !important;
+}
+
+.form-image-container {
+  margin-top: 50px;
+}
+
+.form-image {
+  object-fit: contain;
+  width: 90%;
+}
+
+.heading {
+  margin-top: 10px;
+}
+
+.event {
+  border-radius: 15px;
+  min-height: 10em;
+  font-family: poppins, sans-serif;
+}
+
+.event-header {
+  text-decoration: underline #a6c;
+  text-transform: uppercase;
+  padding: 10px;
+  font-family: poppins, sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.event-content {
+  padding: 10px;
+}
+
+.event-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.15rem;
+}
+
+.event-desc {
+  margin-top: 10px;
+}
+
+.event-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.event-button {
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.edit {
+  color: #007bff;
+}
+
+.delete {
+  color: #ff0038;
+}
+
+.add-bg {
+  background-color: #ff0038;
+}
+
+.edit-bg {
+  background-color: #007bff;
+}

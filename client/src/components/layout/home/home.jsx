@@ -20,7 +20,7 @@ const Home = (props) => {
         }
         if (localStorage.getItem("token")) {
             let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
-            props.history.push(decoded.type === "user" ? "/profile" : "/events");
+            props.history.push(decoded.user.type === "user" ? "/profile" : "/events");
         }
     }, [props.history, type, isAuthenticated])
 
