@@ -40,20 +40,25 @@ const Users = (props) => {
             <div className="users-img-container">
                 <img className="users-img" src={profile} alt="users" />
             </div>
-            <div style={grid}>
-                {users && users.map((user) => (
-                    <User key={user._id} user={user} />
-                ))}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <div style={grid}>
+                    {users && users.map((user) => (
+                        <User key={user._id} user={user} />
+                    ))}
+                </div>
             </div>
+
         </div>
     );
 };
 
 const grid = {
+    width: "80vw",
     padding: "60px",
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gridGap: "7rem",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gridColumnGap: "20%",
+    gridGap: "4rem",
 };
 
 
