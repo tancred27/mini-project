@@ -1,16 +1,16 @@
 import { useEffect, useContext } from "react";
 import AuthContext from "../../../context/auth/AuthContext"
 import CollegeContext from "../../../context/college/CollegeContext";
-import EventForm from "./eventForm";
-import Event from "./event";
+import User from "./user";
 import jwt from "jsonwebtoken";
-import "./events.css";
+import profile from "../../../assets/profile2.svg";
+import "./users.css";
 
-const Events = (props) => {
+const Users = (props) => {
     const authContext = useContext(AuthContext);
     const collegeContext = useContext(CollegeContext);
-    const { isAuthenticated, user, loadUser } = authContext;
-    const { events, loadingEvents, setEvents } = collegeContext;
+    const { isAuthenticated, loadUser } = authContext;
+    const { users, loadingUsers, getUsers } = collegeContext;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -27,36 +27,34 @@ const Events = (props) => {
                 props.history.push("/");
             }
         }
-        else if(user && !events) {
-            setEvents(user.events);
+        else if(!users) {
+            getUsers();
         }
         // eslint-disable-next-line
-    }, [isAuthenticated, events, user, loadingEvents]);
+    }, [isAuthenticated, users, loadingUsers]);
 
-    return loadingEvents ? (
-        <div>
-            LOADING       
-        </div>
+    return loadingUsers ? (
+        <div>LOADING</div>
     ) : (
-        <div className="events-container">
-            <EventForm />
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <div style={grid}>
-                    {events.map(event => (
-                        <Event key={event._id} type="college" event={event} />
-                    ))} 
-                </div>
+        <div className="users-container">
+            <div className="users-img-container">
+                <img className="users-img" src={profile} alt="users" />
+            </div>
+            <div style={grid}>
+                {users && users.map((user) => (
+                    <User key={user._id} user={user} />
+                ))}
             </div>
         </div>
-    )
+    );
 };
 
 const grid = {
     padding: "60px",
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gridGap: "7rem",
 };
 
 
-export default Events;
+export default Users;

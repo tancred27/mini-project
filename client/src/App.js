@@ -4,6 +4,7 @@ import Update from "./components/auth/update";
 import Navbar from "./components/layout/navbar/navbar";
 import Footer from "./components/layout/footer/footer";
 import Profile from "./components/user/profile";
+import Users from "./components/college/users/users";
 import Events from "./components/college/events/events";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
@@ -25,6 +26,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/update" component={Update} />
                 <Route exact path="/events" component={Events} />
+                <Route exact path="/users" component={Users} />
                 <Route exact path="/profile" component={Profile} />
               </Switch>
             <Footer />

@@ -26,7 +26,6 @@ const sendEmail = (msg) => {
  */
 router.post("/user/register", async (req, res) => {
     const { name, rollNumber, email, mobile, college, branch, company, info, year, password } = sanitizeInput(req.body);
-    console.log(name, rollNumber, email, mobile, college, branch, company, info, year, password);
     try {
         let user = await User.findOne({ email });
         if (user && user.activated) {

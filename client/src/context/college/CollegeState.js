@@ -24,7 +24,9 @@ const config = {
 
 const CollegeState = (props) => {
     const initialState = {
-        loading: true,
+        loadingEvents: true,
+        loadingUsers: true,
+        loadingAlumni: true,
         events: null,
         users: null,
         currentEvent: null,
@@ -138,7 +140,9 @@ const CollegeState = (props) => {
     return(
         <CollegeContext.Provider
             value={{
-                loading: state.loading,
+                loadingEvents: state.loadingEvents,
+                loadingUsers: state.loadingUsers,
+                loadingAlumni: state.loadingAlumni,
                 events: state.events,
                 users: state.users,
                 alumni: state.alumni,

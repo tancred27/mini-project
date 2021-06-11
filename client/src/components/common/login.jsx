@@ -48,7 +48,7 @@ const Login = ({ display, type, history }) => {
                     <div className="label"><i className="fas fa-key"></i> Password</div>
                     <div className="password">
                         <div style={{ width: "90%" }}>
-                            <input style={{ width: "100%", fontSize: "16px" }} type={visible && password ? "text" : "current-password"} name="password" value={password} onChange={onChange} required /> 
+                            <input style={{ width: "100%", fontSize: "16px" }} type={visible && password ? "text" : "password"} name="password" value={password} onChange={onChange} required /> 
                         </div>
                         <div onClick={() => setVisible(!visible)} style={{ width: "10%", cursor: "pointer", display: password ? "block" : "none" }}>
                             <i className={`fas fa-eye${visible ? "" : "-slash"}`}></i>

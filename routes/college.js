@@ -11,13 +11,12 @@ const auth = require("../middleware/auth");
  */
 router.get('/', auth, async(req, res) => {
     try {
-        let college = await College.findById(req.user.id);
+        let college = await College.findById(req.user.id).select("-password");
         if (!college) {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
         college = await college.populate("events").execPopulate();
-        console.log(college);
         res.status(200).json(college);
     } catch (error) {
         handleCatch(res, 500, error);
@@ -30,7 +29,7 @@ router.get('/', auth, async(req, res) => {
  */
 router.get('/list', async(req, res) => {
     try {
-        const colleges = await College.find().select('-password');
+        const colleges = await College.find().select("-password");
         if (!colleges) {
             console.log("error finding colleges");
             return res.status(404).json({ "msg": "Colleges not found!" });
@@ -41,42 +40,23 @@ router.get('/list', async(req, res) => {
     }
 });
 
-/**
- * @route GET /api/college/:id
- * @desc fetch data of college with given id
- */
-router.get('/:id', auth, async(req, res) => {
-    try {
-       const college = await College.findById(req.params.id);
-        if (!college) {
-            console.log("error finding college");
-            return res.status(404).json({ "msg": "College not found!" });
-        }
-        await college.populate("events").execPopulate();
-        res.status(200).json(college);
-    } catch (error) {
-        handleCatch(res, 500, error);
-    }
-});
-
-/**
- * @route GET /api/college/list
- * @desc get list of all colleges
- */
-router.get('/', auth, async(req, res) => {
-    const id = req.user.id;
-    try {
-        const college = await College.findById(id);
-        if (!college) {
-            console.log("error finding college");
-            return res.status(404).json({ "msg": "College not found!" });
-        }
-        let colleges = await College.find().select('-password');
-        res.status(200).json(colleges);
-    } catch (error) {
-        handleCatch(res, 500, error);
-    }
-});
+// /**
+//  * @route GET /api/college/:id
+//  * @desc fetch data of college with given id
+//  */
+// router.get('/:id', auth, async(req, res) => {
+//     try {
+//        const college = await College.findById(req.params.id);
+//         if (!college) {
+//             console.log("error finding college");
+//             return res.status(404).json({ "msg": "College not found!" });
+//         }
+//         await college.populate("events").execPopulate();
+//         res.status(200).json(college);
+//     } catch (error) {
+//         handleCatch(res, 500, error);
+//     }
+// });
 
 /**
  * @route GET /api/college/users
@@ -90,7 +70,7 @@ router.get("/users", auth, async(req, res) => {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
-        const users = await User.find({ college: college._id, verified: false, activated: true });
+        const users = await User.find({ college: id, verified: false, activated: true });
         res.status(200).json(users);
     } catch(error) {
         handleCatch(res, 500, error);
@@ -101,7 +81,7 @@ router.get("/users", auth, async(req, res) => {
  * @route GET /api/college/alumni
  * @desc get alumni of logged in college
  */
-router.get("/alumni/", auth, async(req, res) => {
+router.get("/alumni", auth, async(req, res) => {
     const id = req.user.id;
     try {
         const college = await College.findById(id);
@@ -150,33 +130,6 @@ router.get("/events", auth, async(req, res) => {
             return res.status(404).json({ "msg": "College not found!" });
         }
         res.status(200).json({ "events": college.events });
-    }
-    catch(error) {
-        handleCatch(res, 500, error);
-    }
-});
-
-/**
- * @route GET /api/college/:id/events
- * @desc get all events of college with given id
- */
-router.get("/:id/events", auth, async(req, res) => {
-    const { id } = req.params;
-    try {
-        let user = await User.findById(req.user.id);
-        if (!user) {
-            console.log("error finding user");
-            return res.status(404).json({ "msg": "User not found!" });
-        }
-        if (user.verified && user.college === id){
-            let college = await (await College.findById(id)).populate("events").execPopulate();
-            if (!college) {
-                console.log("error finding college");
-                return res.status(404).json({ "msg": "College not found!" });
-            }
-            return res.status(200).json({ "events": college.events });
-        }
-        sendRes(res, 403);
     }
     catch(error) {
         handleCatch(res, 500, error);

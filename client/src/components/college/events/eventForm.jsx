@@ -26,7 +26,13 @@ const EventForm = () => {
             });
         }
         else {
-            setEvent(currentEvent);
+            setEvent({
+                name: currentEvent.name,
+                date: currentEvent.date.slice(0, 10),
+                description: currentEvent.description,
+                venue: currentEvent.venue,
+                link: currentEvent.link
+            });
         }
         // eslint-disable-next-line
     }, [currentEvent, collegeContext]);

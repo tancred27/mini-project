@@ -18,21 +18,21 @@ const CollegeReducer = (state, action) => {
             return {
                 ...state,
                 events: action.payload,
-                loading: false
+                loadingEvents: false
             };
 
         case GET_USERS:
             return {
                 ...state,
                 users: action.payload,
-                loading: false
+                loadingUsers: false
             };
         
         case GET_ALUMNI:
             return {
                 ...state,
                 alumni: action.payload,
-                loading: false
+                loadingAlumni: false
             };
 
         case VERIFY_USER:
@@ -61,21 +61,21 @@ const CollegeReducer = (state, action) => {
             return {
                 ...state,
                 events: [action.payload, ...state.events],
-                loading: false
+                loadingEvents: false
             };
 
         case EDIT_EVENT:
             return {
                 ...state, 
                 events: state.events.map(event => event._id === action.payload._id ? action.payload : event),
-                loading: false
+                loadingEvents: false
             };
 
         case DELETE_EVENT:
             return {
                 ...state,
                 events: state.events.filter(event => event._id !== action.payload),
-                loading: false
+                loadingEvents: false
             };
 
         case SET_CURRENT:
