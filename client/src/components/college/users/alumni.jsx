@@ -3,16 +3,17 @@ import AuthContext from "../../../context/auth/AuthContext"
 import CollegeContext from "../../../context/college/CollegeContext";
 import User from "./user";
 import jwt from "jsonwebtoken";
-import profile from "../../../assets/profile2.svg";
+import profile from "../../../assets/alumni.svg";
 import "./users.css";
 
-const Users = (props) => {
+const Alumni = (props) => {
     const authContext = useContext(AuthContext);
     const collegeContext = useContext(CollegeContext);
     const { isAuthenticated, user, loadUser } = authContext;
-    const { users, loadingUsers, getUsers } = collegeContext;
+    const { alumni, loadingAlumni, getAlumni } = collegeContext;
 
     useEffect(() => {
+        console.log(alumni);
         if (!isAuthenticated) {
             if (localStorage.getItem("token")) {
                 let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
@@ -27,29 +28,28 @@ const Users = (props) => {
                 props.history.push("/");
             }
         }
-        else if(!users) {
-            getUsers();
+        else if(!alumni) {
+            getAlumni();
         }
         // eslint-disable-next-line
-    }, [isAuthenticated, users, loadingUsers]);
+    }, [isAuthenticated, alumni, loadingAlumni]);
 
-    return loadingUsers ? (
+    return loadingAlumni ? (
         <div>LOADING</div>
     ) : (
         <div className="users-container">
             <div className="users-img-container">
-                <img className="users-img" src={profile} alt="users" />
+                <img className="alumni-img" src={profile} alt="users" />
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <div className="grid">
-                    {users && users.map((student) => (
-                        <User key={student._id} user={student} college={user.collegeName}/>
+                    {alumni && alumni.map((alumnus) => (
+                        <User key={alumnus._id} user={alumnus} college={user.collegeName}/>
                     ))}
                 </div>
             </div>
-
         </div>
     );
 };
 
-export default Users;
+export default Alumni;

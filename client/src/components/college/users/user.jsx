@@ -1,7 +1,17 @@
-const User = ({ user }) => {
-    return (
-        <div className="card">
-            <img className="profile" src={`https://robohash.org/${user._id}`} alt="me" />
+import { useState } from "react";
+import { Redirect } from "react-router-dom";
+
+const User = ({ user, college }) => {
+    const [state, setState] = useState(false);
+
+    const onClick = () => setState(true);
+    return state ? (
+        <Redirect to={{ pathname: "/profile", state: { user, college } }} />
+    ) : (
+        <div className="card" onClick={onClick}>
+            <div className="profile-img">
+                <img className="profile" src={`https://robohash.org/${user._id}`} alt="me" />
+            </div>
             <div className="content">
                 <div className="name">{user.name}</div>
                 <hr style={{ height: "2px", color: "#7b1fa2", backgroundColor: "#7b1fa2" }}/>
