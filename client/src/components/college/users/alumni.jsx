@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react";
-import AuthContext from "../../../context/auth/AuthContext"
+import AuthContext from "../../../context/auth/AuthContext";
+import AlumniFilter from "../../../context/college/AlumniFilter";
 import CollegeContext from "../../../context/college/CollegeContext";
 import User from "./user";
 import jwt from "jsonwebtoken";
@@ -10,10 +11,9 @@ const Alumni = (props) => {
     const authContext = useContext(AuthContext);
     const collegeContext = useContext(CollegeContext);
     const { isAuthenticated, user, loadUser } = authContext;
-    const { alumni, loadingAlumni, getAlumni } = collegeContext;
+    const { alumni, loadingAlumni, getAlumni, filteredAlumni } = collegeContext;
 
     useEffect(() => {
-        console.log(alumni);
         if (!isAuthenticated) {
             if (localStorage.getItem("token")) {
                 let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
@@ -32,21 +32,25 @@ const Alumni = (props) => {
             getAlumni();
         }
         // eslint-disable-next-line
-    }, [isAuthenticated, alumni, loadingAlumni]);
+    }, [isAuthenticated, collegeContext]);
 
-    return loadingAlumni ? (
-        <div>LOADING</div>
-    ) : (
+    return (
         <div className="users-container">
             <div className="users-img-container">
                 <img className="alumni-img" src={profile} alt="users" />
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <div className="grid">
-                    {alumni && alumni.map((alumnus) => (
-                        <User key={alumnus._id} user={alumnus} college={user.collegeName}/>
-                    ))}
-                </div>
+            <br />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                <AlumniFilter />
+                {loadingAlumni ? (
+                    <div>LOADING</div>
+                ) : (
+                    <div className="grid">
+                        {(filteredAlumni || alumni).map((alumnus) => (
+                            <User key={alumnus._id} user={alumnus} college={user.collegeName}/>
+                        ))}
+                    </div> 
+                )}
             </div>
         </div>
     );

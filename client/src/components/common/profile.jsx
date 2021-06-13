@@ -1,5 +1,5 @@
 import "./profile.css";
-import bigboi from "../../assets/bigboi.jpeg";
+import profile from "../../assets/profile1.jpeg";
 import check from "../../assets/check.png";
 
 const Profile = (props) => {
@@ -11,11 +11,11 @@ const Profile = (props) => {
             <div className="profile-card">
                 <div style={{ width: "60%" }}>
                     <span className="profile-heading">{user.name}</span> {user.verified && <img className="check-img" src={check} alt="check" />}
-                    <img className="work-img" src={bigboi} alt="work" />
+                    <img className="work-img" src={profile} alt="work" />
                 </div>
                 <div className="profile-info">
                     <div>
-                        <img className="profile-big-img" src="https://robohash.org/hi" alt="" />
+                        <img className="profile-big-img" src={`https://robohash.org/${user.name}`} alt="" />
                     </div>
                     <div className="profile-content">
                         <div className="profile-field bg-dark"><i className="fas fa-graduation-cap"></i>&nbsp;College: &nbsp;{college}</div>

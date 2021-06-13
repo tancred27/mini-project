@@ -1,6 +1,6 @@
 .profile-container {
   display: flex;
-  background-color: white;
+  background-color: #e5e5e5;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
@@ -20,7 +20,7 @@
 
 .work-img {
   object-fit: contain;
-  width: 90%;
+  width: 95%;
 }
 
 .profile-info {
@@ -36,7 +36,7 @@
 
 .profile-big-img {
   margin: 10px;
-  background-color: #e5e5e5;
+  background-color: #bfbfbf;
   object-fit: contain;
   height: 150px;
   border-radius: 50%;

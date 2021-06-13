@@ -146,6 +146,7 @@ const CollegeState = (props) => {
                 events: state.events,
                 users: state.users,
                 alumni: state.alumni,
+                filteredAlumni: state.filteredAlumni,
                 currentEvent: state.currentEvent,
                 getUsers,
                 getAlumni,

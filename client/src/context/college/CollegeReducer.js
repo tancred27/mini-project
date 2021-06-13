@@ -47,8 +47,8 @@ const CollegeReducer = (state, action) => {
                 ...state,
                 filteredAlumni: state.alumni.filter(alumnus => {
                     const regex = new RegExp(`${action.payload}`, "gi");
-                    return alumnus.name.match(regex) || alumnus.branch.match(regex) || alumnus.company.match(regex) || alumnus.year.match(regex);
-                })
+                    return alumnus.name.match(regex) || alumnus.rollNumber.match(regex) || alumnus.branch.match(regex) || alumnus.company.match(regex) || alumnus.year.match(regex);
+                }),
             };
 
         case CLEAR_FILTER:
