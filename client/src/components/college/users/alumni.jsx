@@ -41,7 +41,7 @@ const Alumni = (props) => {
             </div>
             <br />
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-                <AlumniFilter />
+                <AlumniFilter type="alumni" />
                 {loadingAlumni ? (
                     <div>LOADING</div>
                 ) : (

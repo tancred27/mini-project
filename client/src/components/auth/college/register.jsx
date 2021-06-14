@@ -39,13 +39,13 @@ const Register = ({ display, history }) => {
         if (password && !error) {
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_]).+/g;
             if (password.length < 8 || password.length > 30) {
-                setAlert("Password length must be between 8 and 30 characters!", "error");
+                setAlert("Password length must be between 8 and 30 characters!", "error", 5000);
             }
             else if (password.search(regex) === -1 && !error) {
-                setAlert("Password must have small letters, at least 1 capital letter, 1 digit and 1 special character!", "error");
+                setAlert("Password must have small letters, at least 1 capital letter, 1 digit and 1 special character!", "error", 7000);
             }
             else if (password !== confirmPass) {
-                setAlert("Password and Confirm Password must be the same!", "error");
+                setAlert("Password and Confirm Password must be the same!", "error", 4000);
             }
             else {
                 const formData = { name, collegeName, email, mobile, password };

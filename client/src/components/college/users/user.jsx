@@ -1,14 +1,8 @@
-import { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const User = ({ user, college }) => {
-    const [state, setState] = useState(false);
-
-    const onClick = () => setState(true);
-    return state ? (
-        <Redirect to={{ pathname: "/profile", state: { user, college } }} />
-    ) : (
-        <div className="card" onClick={onClick}>
+const User = ({ user }) => {
+    return (
+        <Link to={`/profile/${user._id}`} className="card">
             <div className="profile-img">
                 <img className="profile" src={`https://robohash.org/${user._id}`} alt="me" />
             </div>
@@ -36,7 +30,7 @@ const User = ({ user, college }) => {
                     </div>
                 </div>
             </div>
-        </div>   
+        </Link>   
     );
 };
 

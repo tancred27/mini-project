@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react";
 import AuthContext from "../../../context/auth/AuthContext"
+import AlumniFilter from "../../../context/college/AlumniFilter";
 import CollegeContext from "../../../context/college/CollegeContext";
 import User from "./user";
 import jwt from "jsonwebtoken";
@@ -10,7 +11,7 @@ const Users = (props) => {
     const authContext = useContext(AuthContext);
     const collegeContext = useContext(CollegeContext);
     const { isAuthenticated, user, loadUser } = authContext;
-    const { users, loadingUsers, getUsers } = collegeContext;
+    const { users, loadingUsers, getUsers, filteredUsers } = collegeContext;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -31,23 +32,26 @@ const Users = (props) => {
             getUsers();
         }
         // eslint-disable-next-line
-    }, [isAuthenticated, users, loadingUsers]);
+    }, [isAuthenticated, collegeContext]);
 
-    return loadingUsers ? (
-        <div>LOADING</div>
-    ) : (
+    return  (
         <div className="users-container">
             <div className="users-img-container">
-                <img className="users-img" src={profile} alt="users" />
+                <img className="alumni-img" src={profile} alt="users" />
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <div className="grid">
-                    {users && users.map((student) => (
-                        <User key={student._id} user={student} college={user.collegeName}/>
-                    ))}
-                </div>
+            <br />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                <AlumniFilter type="users" />
+                {loadingUsers ? (
+                    <div>LOADING</div>
+                ) : (
+                    <div className="grid">
+                        {(filteredUsers || users).map((alumnus) => (
+                            <User key={alumnus._id} user={alumnus} college={user.collegeName}/>
+                        ))}
+                    </div> 
+                )}
             </div>
-
         </div>
     );
 };

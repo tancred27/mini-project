@@ -24,7 +24,7 @@ const Login = ({ display, type, history }) => {
             history.push(type === "user" ? "/profile" : "/events");
         }
         if (error) {
-            setAlert(error.msg, error.type);
+            setAlert(error.msg, error.type, 5000);
             clearErrors();
         }
         // eslint-disable-next-line

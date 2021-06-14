@@ -9,13 +9,11 @@
 .profile-card {
   margin-top: 50px;
   padding: 10px;
-  /* background-color: rgb(255, 244, 230); */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 80%;
   min-height: 80%;
-  /* border-radius: 15px; */
 }
 
 .work-img {
@@ -44,7 +42,7 @@
 
 .check-img {
   object-fit: contain;
-  width: 7%;
+  width: 5%;
 }
 
 .profile-content {
@@ -70,6 +68,16 @@
 .profile-heading {
   margin-left: 90px;
   font-weight: 600;
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   color: #14142b;
+}
+
+.verify {
+  text-transform: uppercase;
+  width: 10rem;
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  font-size: 17px;
+  color: #ff0038;
 }

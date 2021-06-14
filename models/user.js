@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
     },
     college: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "colleges",
+        ref: "college",
         required: true
     },
     branch: {

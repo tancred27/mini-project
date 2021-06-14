@@ -1,0 +1,91 @@
+.load {
+  height: auto;
+  width: auto;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.load__image img {
+  width: 100%;
+  height: 100%;
+}
+
+.load__image.loading {
+  height: 300px;
+  width: 400px;
+}
+
+.load__title {
+  padding: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.load__title.loading {
+  height: 0.5rem;
+  width: 40%;
+  margin: 1rem;
+  border-radius: 3px;
+}
+
+.load__title2 {
+  padding: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.load__title2.loading {
+  height: 0.5rem;
+  width: 50%;
+  margin: 1rem;
+  border-radius: 3px;
+}
+
+.load__description {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.load__description.loading {
+  height: 0.5rem;
+  width: 70%;
+  margin: 1rem;
+  border-radius: 3px;
+}
+
+.loading {
+  position: relative;
+  background-color: rgb(141, 141, 141);
+}
+
+.loading::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(transparent),
+    color-stop(rgba(255, 255, 255, 0.356)),
+    to(transparent)
+  );
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+
+  animation: loading 0.8s infinite;
+}
+
+@keyframes loading {
+  100% {
+    transform: translateX(100%);
+  }
+}

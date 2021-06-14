@@ -96,3 +96,51 @@
 .edit-bg {
   background-color: #007bff;
 }
+
+input {
+  background-color: #e5e5e5;
+  border: none;
+  outline: none;
+  line-height: 1;
+  font: 400 16px poppins, sans-serif;
+}
+
+textarea {
+  background-color: #e5e5e5;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font: 400 16px poppins, sans-serif;
+  padding: 5px;
+}
+
+.label {
+  margin-top: 10px;
+  color: antiquewhite;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.form-input {
+  height: 1.5rem;
+  width: 20rem;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.submit-button {
+  outline: none;
+  border: none;
+  width: 8rem;
+  height: 2.1rem;
+  cursor: pointer;
+  line-height: 2;
+  display: block;
+  margin: auto;
+  color: #fcfcfc;
+  background-color: #ff0038;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 17px;
+}

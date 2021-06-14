@@ -103,6 +103,7 @@ const AuthState = (props) => {
                 loading: state.loading,
                 user: state.user,
                 error: state.error,
+                type: state.type,
                 register,
                 login,
                 loadUser,

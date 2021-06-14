@@ -17,12 +17,13 @@ router.get('/', auth, async(req, res) => {
 });
 
 /**
- * @route GET /api/user/:id
+ * @route GET /api/user/info/:id
  * @desc fetch data of user with given id
  */
-router.get('/:id', auth, async(req, res) => {
+router.get('/info/:id', auth, async(req, res) => {
     try {
-        const user = await User.findById(req.params.id).select('-password');
+        let user = await User.findById(req.params.id).select('-password');
+        user = await user.populate("college", "collegeName").execPopulate();
         res.status(200).json(user);
     } catch (error) {
         handleCatch(res, 500, error);

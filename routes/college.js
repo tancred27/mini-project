@@ -40,23 +40,6 @@ router.get('/list', async(req, res) => {
     }
 });
 
-// /**
-//  * @route GET /api/college/:id
-//  * @desc fetch data of college with given id
-//  */
-// router.get('/:id', auth, async(req, res) => {
-//     try {
-//        const college = await College.findById(req.params.id);
-//         if (!college) {
-//             console.log("error finding college");
-//             return res.status(404).json({ "msg": "College not found!" });
-//         }
-//         await college.populate("events").execPopulate();
-//         res.status(200).json(college);
-//     } catch (error) {
-//         handleCatch(res, 500, error);
-//     }
-// });
 
 /**
  * @route GET /api/college/users
@@ -102,15 +85,15 @@ router.get("/alumni", auth, async(req, res) => {
  */
 router.get("/verify/:id", auth, async(req, res) => {
     const { id } = req.params;
-    let user = await User.findById(id);
+    let user = await User.findById(id).select("-password");
     if (!user) {
         return res.status(404).json({ "msg": "User not found!" });
     }
-    if (user.college !== req.user.id) {
+    if (user.college != req.user.id) {
         return sendRes(res, 403);
     }
     try {
-        user = await User.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
+        user = await User.findByIdAndUpdate(id, { $set: { verified: true } }, { new: true });
         res.status(200).json(user);
     } catch(error) {
         handleCatch(res, 500, error);

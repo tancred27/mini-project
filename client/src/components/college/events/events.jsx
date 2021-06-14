@@ -4,6 +4,7 @@ import CollegeContext from "../../../context/college/CollegeContext";
 import EventForm from "./eventForm";
 import Event from "./event";
 import jwt from "jsonwebtoken";
+import Fallback from "../../../fallback";
 import "./events.css";
 
 const Events = (props) => {
@@ -33,18 +34,14 @@ const Events = (props) => {
         // eslint-disable-next-line
     }, [isAuthenticated, events, user, loadingEvents]);
 
-    return loadingEvents ? (
-        <div>
-            LOADING       
-        </div>
-    ) : (
+    return (
         <div className="events-container">
             <EventForm />
             <div style={{ display: "flex", alignItems: "center" }}>
                 <div style={grid}>
-                    {events.map(event => (
+                    {loadingEvents ? <Fallback /> : (events.map(event => (
                         <Event key={event._id} type="college" event={event} />
-                    ))} 
+                    )))} 
                 </div>
             </div>
         </div>
@@ -57,6 +54,5 @@ const grid = {
     gridTemplateColumns: "repeat(2, 1fr)",
     gridGap: "7rem",
 };
-
 
 export default Events;
