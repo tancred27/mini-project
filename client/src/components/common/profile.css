@@ -70,14 +70,22 @@
   font-weight: 600;
   font-size: 2.1rem;
   color: #14142b;
+  margin-bottom: 80px;
 }
 
-.verify {
+.btn {
   text-transform: uppercase;
   width: 10rem;
   cursor: pointer;
   display: block;
   margin: auto;
   font-size: 17px;
+}
+
+.verify {
   color: #ff0038;
+}
+
+.contact {
+  color: #007bff;
 }

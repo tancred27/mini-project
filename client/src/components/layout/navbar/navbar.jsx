@@ -25,7 +25,7 @@ const Navbar = () => {
             <Link to="/events" className="nav-link"><i className="fas fa-calendar-alt"></i> Events</Link>
             <Link to="/users" className="nav-link"><i className="fas fa-user"></i> Users</Link>
             <Link to="/alumni" className="nav-link"><i className="fas fa-users"></i> Alumni</Link>
-            <Link to="/contact" className="nav-link"><i className="fas fa-paper-plane"></i> Contact</Link>
+            <Link to="/contact/all" className="nav-link"><i className="fas fa-paper-plane"></i> Contact</Link>
             <div className="nav-link" onClick={() => logout()}><i className="fas fa-sign-out-alt"></i> Logout</div>
         </div>
     );

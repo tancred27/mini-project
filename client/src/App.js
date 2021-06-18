@@ -15,6 +15,7 @@ const Users = lazy(() => import("./components/college/users/users"));
 const Alumni = lazy(() => import("./components/college/users/alumni"));
 const Profile = lazy(() => import("./components/common/profile"));
 const Update = lazy(() => import("./components/auth/update"));
+const Contact = lazy(() => import("./components/common/contact"));
 
 localStorage.token && setAuthToken(localStorage.token);
 
@@ -34,6 +35,7 @@ function App() {
                   <Route exact path="/users" component={Users} />
                   <Route exact path="/alumni" component={Alumni} />
                   <Route exact path="/profile/:id" component={Profile} />
+                  <Route exact path="/contact/:id" component={Contact} />
                 </Suspense>
               </Switch>
             <Footer />

@@ -101,7 +101,7 @@ router.get("/user/activate/:id", async (req, res) => {
     }
     try {
         user = await User.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
-        res.status(200).json("Account activated, please head to login page");
+        res.status(200).send("Account activated, please head to login page");
     } catch (error) {
         handleCatch(res, 500, error);
     }
@@ -111,7 +111,7 @@ router.get("/user/activate/:id", async (req, res) => {
  * @route POST /api/college/register
  * @desc endpoint to register college
  */
-router.post("/college/register", async(req, res) => {
+router.post("/college/register", async (req, res) => {
     const { collegeName, name, email, mobile, password } = sanitizeInput(req.body);
     try {
         let user = await College.findOne({ email });
@@ -187,7 +187,7 @@ router.post("/college/login", async (req, res) => {
     }
     try {
         college = await College.findByIdAndUpdate(id, { $set: { activated: true } }, { new: true });
-        res.status(200).json("Account activated, please head to login page");
+        res.status(200).send("Account activated, please head to login page");
     } catch (error) {
         handleCatch(res, 500, error);
     }

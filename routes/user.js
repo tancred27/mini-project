@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const auth = require("../middleware/auth");
+const config = require("config");
+const Nexmo = require("nexmo");
+const apiKey = config.get("apiKey");
+const apiSecret = config.get("apiSecret");
 
 /**
  * @route GET /api/user/
@@ -49,6 +53,33 @@ router.put("/", auth, async (req, res) => {
         user = await User.findByIdAndUpdate(user._id, { $set: userFields }, { new: true });
         res.status(200).json(user);
     } catch (error) {
+        handleCatch(res, 500, error);
+    }
+});
+
+router.post("/user/sms", auth, async (req, res) => {
+    try {
+        let { to, text } = req.body;
+        const nexmo = new Nexmo({
+            apiKey,
+            apiSecret
+        });
+        to = "91" + to;
+        nexmo.message.sendSms("Nexmo", to, text);
+        sendRes(res, 200);
+    }  catch(error) {
+        handleCatch(res, 500, error);
+    }
+});
+
+router.post("/user/email", auth, async (req, res) => {
+    try {
+        let { to, subject, text } = req.body;
+        let from = "saiindra70@gmail.com";
+        const msg = { to, from, subject, text };
+        sendEmail(msg);
+        sendRes(res, 200);
+    } catch(error) {
         handleCatch(res, 500, error);
     }
 });

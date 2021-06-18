@@ -1,4 +1,5 @@
 import { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./profile.css";
 import profile from "../../assets/profile1.jpeg";
 import AuthContext from "../../context/auth/AuthContext";
@@ -42,11 +43,17 @@ const Profile = (props) => {
         <div className="profile-container">
             <div className="profile-card">
                 <div style={{ width: "60%" }}>
-                    <span className="profile-heading">{currentUser.name}</span> {currentUser.verified && <img className="check-img" src={check} alt="check" />}
+                    <div className="profile-heading">
+                        {currentUser.name} &nbsp;
+                        {currentUser.verified && <img className="check-img" src={check} alt="check" />}
+                    </div>
                     <img className="work-img" src={profile} alt="work" />
-                    {type === "college" && !currentUser.verified && 
-                        <div className="verify" onClick={onClick}><i className="fas fa-check-circle"></i> Verify user</div>
-                    }
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        {type === "college" && !currentUser.verified && 
+                            <div className="btn verify" onClick={onClick}><i className="fas fa-check-circle"></i> Verify user</div>
+                        } 
+                        <Link to={`/contact/${currentUser._id}`} className="btn contact"><i className="fas fa-paper-plane"></i> Contact</Link>
+                    </div>
                 </div>
                 <div className="profile-info">
                     <div>
