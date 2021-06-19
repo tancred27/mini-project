@@ -1,8 +1,17 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../../../context/user/UserContext";
 
 const User = ({ user }) => {
+    const userContext = useContext(UserContext);
+    const { clearCurrentProfile } = userContext;
+
+    const onClick = () => {
+        clearCurrentProfile();
+    };
+
     return (
-        <Link to={`/profile/${user._id}`} className="card">
+        <Link to={`/profile/${user._id}`} onClick={onClick} className="card">
             <div className="profile-img">
                 <img className="profile" src={`https://robohash.org/${user._id}`} alt="me" />
             </div>

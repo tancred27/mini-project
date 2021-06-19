@@ -3,10 +3,12 @@ import {
     LOGIN_FAIL,
     REGISTER_SUCCESS,
     REGISTER_FAIL,
+    UPDATE_FAIL,
     AUTH_ERROR,
     USER_LOADED,
     LOGOUT,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    UPDATE_PROFILE
 } from "../types";
 
 const AuthReducer = (state, action) => {
@@ -37,7 +39,8 @@ const AuthReducer = (state, action) => {
                     type: "success"
                 }
             }
-           
+        
+        case UPDATE_FAIL:
         case LOGIN_FAIL:
         case AUTH_ERROR:
         case REGISTER_FAIL:
@@ -65,6 +68,16 @@ const AuthReducer = (state, action) => {
                 error: null
             };
         
+        case UPDATE_PROFILE:
+            return {
+                ...state,
+                error: {
+                    msg: action.payload.msg,
+                    type: "success"
+                },
+                user: action.payload.user
+            };
+
         default:
             return state;
     }

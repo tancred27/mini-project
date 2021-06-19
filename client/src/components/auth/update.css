@@ -1,8 +1,3 @@
-.events-container {
-  min-height: 50vh;
-  width: 100%;
-}
-
 .form-container {
   display: flex;
   align-items: center;
@@ -11,7 +6,7 @@
   padding: 20px;
 }
 
-.event-form {
+.update-form {
   background-color: #14142b;
   padding: 15px;
   width: 400px;
@@ -30,9 +25,9 @@
   margin-top: 50px;
 }
 
-.form-image {
+.update-img {
   object-fit: contain;
-  width: 90%;
+  width: 80%;
 }
 
 .smol {
@@ -42,65 +37,11 @@
 }
 
 .heading {
-  margin-top: 10px;
-}
-
-.event {
-  border-radius: 15px;
-  min-height: 10em;
-  font-family: poppins, sans-serif;
-}
-
-.event-header {
-  text-decoration: underline #a6c;
-  text-transform: uppercase;
-  padding: 10px;
-  font-family: poppins, sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem;
-}
-
-.event-content {
-  padding: 10px;
-}
-
-.event-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 1.15rem;
-}
-
-.event-desc {
+  justify-content: center;
+  font-size: 1.4rem;
   margin-top: 10px;
-}
-
-.event-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-}
-
-.event-button {
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.edit {
-  color: #007bff;
-}
-
-.delete {
-  color: #ff0038;
-}
-
-.add-bg {
-  background-color: #ff0038;
-}
-
-.edit-bg {
-  background-color: #007bff;
 }
 
 input {

@@ -1,16 +1,28 @@
 import { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import AuthContext from "../../../context/auth/AuthContext";
+import UserContext from "../../../context/user/UserContext";
 import "./navbar.css";
+import jwt from "jsonwebtoken";
 
-const Navbar = () => {
+const Navbar = (props) => {
     const authContext = useContext(AuthContext);
-    const { isAuthenticated, user, type, logout, loading } = authContext;
+    const userContext = useContext(UserContext);
+    const { isAuthenticated, user, type, logout, loadUser, loading } = authContext;
+    const { clearCurrentProfile } = userContext;
 
     const [navLinks, setNavLinks] = useState(false);
 
     useEffect(() => {
-        console.log(type);
+        if (!isAuthenticated) {
+            if (localStorage.getItem("token")) {
+                let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
+                loadUser(decoded.user.type);
+            }
+            else {
+                props.history.push("/");
+            }
+        }
         if (!loading) {
             setNavLinks(true);
         }
@@ -19,6 +31,10 @@ const Navbar = () => {
         }
         // eslint-disable-next-line
     }, [isAuthenticated, user, loading])
+
+    const onClick = () => {
+        clearCurrentProfile();
+    }
 
     const collegeLinks = (
         <div className="nav-links">
@@ -32,8 +48,11 @@ const Navbar = () => {
 
     const userLinks = (
         <div className="nav-links">
-            {user && user.verified && <Link to="/events" className="nav-link"><i className="fas fa-sign-in-alt"></i> Events</Link>}
-            <Link to="/profile" className="nav-link"><i className="fas fa-user-plus"></i> Users</Link>
+            {user && <Link to={`/profile/${user._id}`} onClick={onClick} className="nav-link"><i className="fas fa-user-plus"></i> Profile</Link>}
+            {user && user.verified && <Link to="/events" className="nav-link"><i className="fas fa-calendar-alt"></i> Events</Link>}
+            {user && user.verified && <Link to="/alumni" className="nav-link"><i className="fas fa-users"></i> Alumni</Link>}
+            {user && user.verified && <Link to="/contact/college" onClick={onClick} className="nav-link"><i className="fas fa-paper-plane"></i> Contact</Link>}
+            <Link to="/update" className="nav-link"><i className="fas fa-pen-alt"></i> Update</Link>
             <div className="nav-link" onClick={() => logout()}><i className="fas fa-sign-out-alt"></i> Logout</div>
         </div>
     );
@@ -50,4 +69,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default withRouter(Navbar);

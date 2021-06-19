@@ -9,7 +9,7 @@ import axios from "axios";
 const Register = ({ display, history }) => {
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
-    const { error, register, isAuthenticated } = authContext;
+    const { error, register, clearErrors, isAuthenticated } = authContext;
     const { setAlert } = alertContext;
     const [colleges, setColleges] = useState(null);
 
@@ -18,8 +18,9 @@ const Register = ({ display, history }) => {
             const res = await axios.get("/api/college/list");
             setColleges(res.data);
         }
-        if (isAuthenticated) { 
-            history.push("/profile");
+        if (error) {
+            setAlert(error.msg, error.type, 5000);
+            clearErrors();
         }
         if (!colleges) {
             getColleges();

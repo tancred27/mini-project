@@ -12,7 +12,9 @@ import {
     AUTH_ERROR,
     USER_LOADED,
     LOGOUT,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    UPDATE_PROFILE,
+    UPDATE_FAIL
 } from "../types";
 
 const config = {
@@ -32,7 +34,6 @@ const AuthState = (props) => {
 
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-    // Load user:
     const loadUser = async(type) => {
         if (localStorage.token) {
             setAuthToken(localStorage.token);
@@ -52,7 +53,6 @@ const AuthState = (props) => {
         }
     };
 
-    // Register user:
     const register = async(formData, type) => {
         try {
             await axios.post(`/api/auth/${type}/register`, formData, config);
@@ -68,7 +68,6 @@ const AuthState = (props) => {
         }
     };
 
-    // Login user:
     const login = async(formData, type) => {
         try {
             const res = await axios.post(`/api/auth/${type}/login`, formData, config);
@@ -86,14 +85,44 @@ const AuthState = (props) => {
         }
     };
 
-    // Logout:
     const logout = async() => {
         dispatch({ type: LOGOUT });
     };
 
-    // Clear errors:
     const clearErrors = async() => {
         dispatch({ type: CLEAR_ERRORS });
+    };
+
+    const sendEmail = async(formData) => {
+        try {
+            await axios.post(`/api/college/email`, formData, config);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const sendSms = async(formData) => {
+        try {
+            await axios.post(`/api/college/sms`, formData, config);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
+    const updateProfile = async(formData) => {
+        try {
+            const res = await axios.put(`/api/user/`, formData, config);
+            console.log(res.data);
+            dispatch({
+                type: UPDATE_PROFILE,
+                payload: res.data
+            });
+        } catch(error) {
+            dispatch({
+                type: UPDATE_FAIL,
+                payload: error.response.data.msg
+            });
+        }
     };
 
     return(
@@ -108,7 +137,10 @@ const AuthState = (props) => {
                 login,
                 loadUser,
                 clearErrors,
-                logout
+                logout,
+                sendSms,
+                sendEmail,
+                updateProfile
             }}
         >
             {props.children}

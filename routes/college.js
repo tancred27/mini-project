@@ -4,10 +4,6 @@ const College = require("../models/college");
 const User = require("../models/user");
 const Event = require("../models/events");
 const auth = require("../middleware/auth");
-const config = require("config");
-const Nexmo = require("nexmo");
-const apiKey = config.get("apiKey");
-const apiSecret = config.get("apiSecret");
 
 /**
  * @route GET /api/college/
@@ -57,7 +53,7 @@ router.get("/users", auth, async(req, res) => {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
-        const users = await User.find({ college: id, verified: false, activated: true });
+        const users = await User.find({ college: id, verified: false, activated: true }).select("-password");
         res.status(200).json(users);
     } catch(error) {
         handleCatch(res, 500, error);
@@ -76,7 +72,7 @@ router.get("/alumni", auth, async(req, res) => {
             console.log("error finding college");
             return res.status(404).json({ "msg": "College not found!" });
         }
-        const alumni = await User.find({ college: college._id, verified: true, activated: true });
+        const alumni = await User.find({ college: college._id, verified: true, activated: true }).select("-password");
         res.status(200).json(alumni);
     } catch(error) {
         handleCatch(res, 500, error);
@@ -97,7 +93,7 @@ router.get("/verify/:id", auth, async(req, res) => {
         return sendRes(res, 403);
     }
     try {
-        user = await User.findByIdAndUpdate(id, { $set: { verified: true } }, { new: true });
+        user = await User.findByIdAndUpdate(id, { $set: { verified: true } }, { new: true }).select("-password");
         res.status(200).json(user);
     } catch(error) {
         handleCatch(res, 500, error);
@@ -225,62 +221,6 @@ router.post("/events", auth, async(req, res) => {
         college = await College.findOneAndUpdate(id, { $set: { events } }, { new: true });
         await Event.deleteOne({ _id: eventId });
         sendRes(res, 200);
-    } catch(error) {
-        handleCatch(res, 500, error);
-    }
-});
-
-/**
- * @route POST /api/college/sms
- * @desc send an sms to an alumni or all alumni
- */
-router.post("/college/sms", auth, async (req, res) => {
-    try {
-        let { to, text } = req.body;
-        const nexmo = new Nexmo({
-            apiKey,
-            apiSecret
-        });
-        if (to === "All Alumni") {
-            let users = await User.find({ college: req.user.id });
-            users.map(user => {
-                to = "91" + user.mobile;
-                nexmo.message.sendSms("Nexmo", to, text);
-                sendRes(res, 200);
-            });
-        }
-        else {
-            to = "91" + to;
-            nexmo.message.sendSms("Nexmo", to, text);
-            sendRes(res, 200);
-        }
-    }  catch(error) {
-        handleCatch(res, 500, error);
-    }
-});
-
-/**
- * @route POST /api/college/email
- * @desc send an email to an alumni or all alumni
- */
-router.post("/college/email", auth, async (req, res) => {
-    try {
-        let { to, subject, text } = req.body;
-        let from = "saiindra70@gmail.com";
-        if (to === "All Alumni") {
-            let users = await User.find({ college: req.user.id });
-            users.map(user => {
-                to = user.email;
-                const msg = { to, from, subject, text };
-                sendEmail(msg);
-                sendRes(res, 200);
-            });
-        } 
-        else {
-            const msg = { to, from, subject, text };
-            sendEmail(msg);
-            sendRes(res, 200);
-        }
     } catch(error) {
         handleCatch(res, 500, error);
     }

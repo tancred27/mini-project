@@ -9,32 +9,29 @@ const Login = ({ display, type, history }) => {
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
-    const { login, error, clearErrors, isAuthenticated } = authContext;
-    const [user, setUser] = useState({
+    const { login, error, clearErrors } = authContext;
+    const [form, setForm] = useState({
         email: "",
         password: ""
     });
     
     const [visible, setVisible] = useState(false);
 
-    const { email, password } = user;
+    const { email, password } = form;
 
     useEffect(() => {
-        if (isAuthenticated) { 
-            history.push(type === "user" ? "/profile" : "/events");
-        }
         if (error) {
             setAlert(error.msg, error.type, 5000);
             clearErrors();
         }
         // eslint-disable-next-line
-    }, [history, error, isAuthenticated]);
+    }, [history, error]);
 
-    const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+    const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const onSubmit = (e) => {
         e.preventDefault();
-        login(user, type);
+        login(form, type);
     };
 
     return display ? (

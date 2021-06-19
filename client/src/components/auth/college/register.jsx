@@ -8,15 +8,17 @@ import { withRouter } from "react-router-dom";
 const Register = ({ display, history }) => {
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
-    const { error, register, isAuthenticated } = authContext;
+    const { error, register, clearErrors } = authContext;
     const { setAlert } = alertContext;
 
     useEffect(() => {
-        if (isAuthenticated) { 
-            history.push("/events");
+        if (error) {
+            setAlert(error.msg, error.type, 5000);
+            clearErrors();
         }
         // eslint-disable-next-line
-    }, [history, isAuthenticated]);
+    }, [history, error]);
+
 
     const [college, setCollege] = useState({
         name: "",

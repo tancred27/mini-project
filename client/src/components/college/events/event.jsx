@@ -29,6 +29,9 @@ const Event = ({ type, event }) => {
                     <i className="fas fa-trash"></i> Delete
                 </div>
             </div>
+            {type === "user" && <a href={event.link} className="event-button delete" style={{ marginLeft: "10px" }}>
+                <i className="fas fa-link"></i> View Event
+            </a>}
         </div>           
     );
 };

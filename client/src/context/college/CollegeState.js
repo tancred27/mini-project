@@ -167,22 +167,6 @@ const CollegeState = (props) => {
         dispatch({ type: CLEAR_CURRENT_USER });
     };
 
-    const sendEmail = async(formData) => {
-        try {
-            await axios.post(`/api/college/email`, formData, config);
-        } catch(error) {
-            console.log(error);
-        }
-    };
-
-    const sendSms = async(formData) => {
-        try {
-            await axios.post(`/api/college/sms`, formData, config);
-        } catch(error) {
-            console.log(error);
-        }
-    };
-
     return(
         <CollegeContext.Provider
             value={{
@@ -211,9 +195,7 @@ const CollegeState = (props) => {
                 setCurrent,
                 getUser,
                 clearCurrent,
-                clearCurrentUser,
-                sendEmail,
-                sendSms
+                clearCurrentUser
             }}
         >
             {props.children}

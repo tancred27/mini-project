@@ -12,17 +12,18 @@ import jwt from "jsonwebtoken";
 
 const Home = (props) => {
     const authContext = useContext(AuthContext);
-    const { type, isAuthenticated } = authContext;
+    const { type, isAuthenticated, user, loadUser } = authContext;
 
     useEffect(() => {
-        if(isAuthenticated) {
-            props.history.push(type === "user" ? "/profile" : "/events");
+        if(isAuthenticated && user) {
+            props.history.push(type === "user" ? `/profile/${user._id}` : "/events");
         }
-        if (localStorage.getItem("token")) {
+        else if (localStorage.getItem("token")) {
             let decoded = jwt.verify(localStorage.token, process.env.REACT_APP_JWT_SECRET);
-            props.history.push(decoded.user.type === "user" ? "/profile" : "/events");
+            loadUser(decoded.user.type);
         }
-    }, [props.history, type, isAuthenticated])
+        // eslint-disable-next-line
+    }, [props.history, type, user, isAuthenticated])
 
     const [state, setState] = useState({
         userLogin: false,

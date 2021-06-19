@@ -2,15 +2,19 @@ import { useEffect, useState, useContext } from "react";
 import "./contact.css";
 import contact from "../../assets/contact.svg";
 import AuthContext from "../../context/auth/AuthContext";
+import UserContext from "../../context/user/UserContext";
 import CollegeContext from "../../context/college/CollegeContext";
 import jwt from "jsonwebtoken";
+import Fallback from "../../fallback";
 
 const Contact = (props) => {
     const { id } = props.match.params;
     const authContext = useContext(AuthContext);
     const collegeContext = useContext(CollegeContext);
-    const { isAuthenticated, loadUser } = authContext;
-    const { currentUser, getUser, sendEmail, sendSms } = collegeContext; 
+    const userContext = useContext(UserContext);
+    const { isAuthenticated, loadUser, user, type, sendEmail, sendSms } = authContext;
+    const { currentUser, getUser } = collegeContext; 
+    const { currentProfile, setCurrentProfile, clearCurrentProfile } = userContext;
     
     useEffect(() => {
         if (!isAuthenticated) {
@@ -22,61 +26,77 @@ const Contact = (props) => {
                 props.history.push("/");
             }
         }
-        if (id !== "all") {
-            if(!currentUser) {
-                getUser(id);
+        else if (id !== "all") {
+            if (type === "college") {
+                if(!currentUser) {
+                    getUser(id);
+                }
+                else {
+                    if (currentUser._id !== id) getUser(id);
+                }
             }
             else {
-                if (currentUser._id !== id) getUser(id);
+                if(!currentProfile) {
+                    setCurrentProfile(id, id === "college" ? "user" : "college");
+                }
+                else if(id !== "college") {
+                    if(currentProfile._id !== id) setCurrentProfile(id, id === "college" ? "user" : "college");
+                }
             }
         }
         // eslint-disable-next-line
-    }, [isAuthenticated, currentUser]);
+    }, [isAuthenticated, user, currentUser, currentProfile ]);
+
+    let userProfile = type === "user" ? currentProfile : currentUser;
 
     const [emailState, setEmailState] = useState({
-        to: id === "all" ? "All Alumni" : currentUser.email,
         subject: "",
         text: ""
     });
 
     const [smsState, setSmsState] = useState({
-        to: id === "all" ? "All Alumni" : currentUser.mobile,
         text: ""
     });
 
     const onSubmitEmail = () => {
-        sendEmail(emailState);
+        sendEmail({
+            to: userProfile.email,
+            ...emailState
+        });
         alert("Email Sent!");
         setEmailState({
-            to: id === "all" ? "All Alumni" : currentUser.email,
             subject: "",
             text: ""
         });
+        clearCurrentProfile();
     };
 
     const onSubmitSms = () => {
-        sendSms(smsState);
+        sendSms({
+            to: userProfile.mobile,
+            ...smsState
+        });
         alert("SMS Sent!");
         setSmsState({
-            to: id === "all" ? "All Alumni" : currentUser.mobile,
             text: ""
         });
+        clearCurrentProfile();
     };
 
     const onEmailChange = (e) => setEmailState({ ...emailState, [e.target.name]: e.target.value });
 
     const onSmsChange = (e) => setSmsState({ ...smsState, [e.target.name]: e.target.value });
-    
-    return id !== "all" && !currentUser ? (
-        <div>LOADING</div>
-    ) : (
-         <div className="form-container">
+
+    return (id !== "all" && !userProfile)
+    ? ( <Fallback /> ) 
+    : (
+        <div className="form-container">
             <div>
                 <div className="heading">Send Email</div>
                 <div className="contact-form">
                     <form onSubmit={onSubmitEmail}>
                         <div className="label"><i className="fas fa-envelope"></i> Receiver</div>
-                        <input className="form-input" type="text" name="to" value={emailState.to} required />
+                        <input className="form-input" type="text" name="to" value={id === "all" ? "All Alumni" : userProfile.email} required />
                         <div className="label"><i className="fas fa-calendar-check"></i> Subject</div>
                         <input className="form-input" type="text" name="subject" value={emailState.subject} onChange={onEmailChange} required />
                         <div className="label"><i className="fas fa-pen-alt"></i> Body</div>
@@ -98,7 +118,7 @@ const Contact = (props) => {
                 <div className="contact-form">
                     <form onSubmit={onSubmitSms}>
                         <div className="label"><i className="fas fa-mobile-alt"></i> Receiver</div>
-                        <input className="form-input" type="text" name="to" value={smsState.to} required />
+                        <input className="form-input" type="text" name="to" value={id === "all" ? "All Alumni" : userProfile.mobile} required />
                         <div className="label"><i className="fas fa-pen-alt"></i> Text</div>
                         <textarea name="text" cols="38" rows="6" value={smsState.text} onChange={onSmsChange} required></textarea>
                         <br /><br />
@@ -111,7 +131,7 @@ const Contact = (props) => {
                 </div>
             </div>
         </div>
-    );
+    )
 };
 
 export default Contact;

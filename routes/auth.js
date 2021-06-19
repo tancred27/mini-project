@@ -8,6 +8,10 @@ const College = require("../models/college");
 const key = config.get("sendgridAPIKey");
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(key);
+const auth = require("../middleware/auth");
+const Nexmo = require("nexmo");
+const apiKey = config.get("apiKey");
+const apiSecret = config.get("apiSecret");
 
 const sendEmail = (msg) => {
     sgMail
@@ -192,5 +196,63 @@ router.post("/college/login", async (req, res) => {
         handleCatch(res, 500, error);
     }
 });
+
+
+/**
+ * @route POST /api/college/sms
+ * @desc send an sms to an alumni or all alumni
+ */
+router.post("/sms", auth, async (req, res) => {
+    try {
+        let { to, text } = req.body;
+        const nexmo = new Nexmo({
+            apiKey,
+            apiSecret
+        });
+        if (to === "All Alumni") {
+            let users = await User.find({ college: req.user.id });
+            users.map(user => {
+                to = "91" + user.mobile;
+                nexmo.message.sendSms("Nexmo", to, text);
+                sendRes(res, 200);
+            });
+        }
+        else {
+            to = "91" + to;
+            nexmo.message.sendSms("Nexmo", to, text);
+            sendRes(res, 200);
+        }
+    }  catch(error) {
+        handleCatch(res, 500, error);
+    }
+});
+
+/**
+ * @route POST /api/college/email
+ * @desc send an email to an alumni or all alumni
+ */
+router.post("/email", auth, async (req, res) => {
+    try {
+        let { to, subject, text } = req.body;
+        let from = "saiindra70@gmail.com";
+        if (to === "All Alumni") {
+            let users = await User.find({ college: req.user.id });
+            users.map(user => {
+                to = user.email;
+                const msg = { to, from, subject, text };
+                sendEmail(msg);
+                sendRes(res, 200);
+            });
+        } 
+        else {
+            const msg = { to, from, subject, text };
+            sendEmail(msg);
+            sendRes(res, 200);
+        }
+    } catch(error) {
+        handleCatch(res, 500, error);
+    }
+});
+
 
 module.exports = router;

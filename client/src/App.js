@@ -5,6 +5,7 @@ import Footer from "./components/layout/footer/footer";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
 import CollegeState from "./context/college/CollegeState";
+import UserState from "./context/user/UserState";
 import setAuthToken from "./utils/setAuthToken";
 import Fallback from "./fallback";
 import "./App.css";
@@ -24,23 +25,25 @@ function App() {
   return (
     <AuthState>
       <CollegeState>
-        <AlertState>
-          <Router>
-            <Navbar />
-              <Switch>
-                <Suspense fallback={Fallback}>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/update" component={Update} />
-                  <Route exact path="/events" component={Events} />
-                  <Route exact path="/users" component={Users} />
-                  <Route exact path="/alumni" component={Alumni} />
-                  <Route exact path="/profile/:id" component={Profile} />
-                  <Route exact path="/contact/:id" component={Contact} />
-                </Suspense>
-              </Switch>
-            <Footer />
-          </Router>
-        </AlertState>
+        <UserState>
+          <AlertState>
+            <Router>
+              <Navbar />
+                <Switch>
+                  <Suspense fallback={Fallback}>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/events" component={Events} />
+                    <Route exact path="/users" component={Users} />
+                    <Route exact path="/alumni" component={Alumni} />
+                    <Route exact path="/update" component={Update} />
+                    <Route exact path="/profile/:id" component={Profile} />
+                    <Route exact path="/contact/:id" component={Contact} />
+                  </Suspense>
+                </Switch>
+              <Footer />
+            </Router>
+          </AlertState>
+        </UserState>
       </CollegeState>
     </AuthState>
   );
