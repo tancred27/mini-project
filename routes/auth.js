@@ -199,7 +199,7 @@ router.post("/college/login", async (req, res) => {
 
 
 /**
- * @route POST /api/college/sms
+ * @route POST /api/auth/sms
  * @desc send an sms to an alumni or all alumni
  */
 router.post("/sms", auth, async (req, res) => {
@@ -228,7 +228,7 @@ router.post("/sms", auth, async (req, res) => {
 });
 
 /**
- * @route POST /api/college/email
+ * @route POST /api/auth/email
  * @desc send an email to an alumni or all alumni
  */
 router.post("/email", auth, async (req, res) => {

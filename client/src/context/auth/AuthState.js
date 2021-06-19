@@ -95,7 +95,7 @@ const AuthState = (props) => {
 
     const sendEmail = async(formData) => {
         try {
-            await axios.post(`/api/college/email`, formData, config);
+            await axios.post(`/api/auth/email`, formData, config);
         } catch(error) {
             console.log(error);
         }
@@ -103,7 +103,7 @@ const AuthState = (props) => {
 
     const sendSms = async(formData) => {
         try {
-            await axios.post(`/api/college/sms`, formData, config);
+            await axios.post(`/api/auth/sms`, formData, config);
         } catch(error) {
             console.log(error);
         }
