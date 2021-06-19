@@ -204,7 +204,7 @@ router.post("/college/login", async (req, res) => {
  */
 router.post("/sms", auth, async (req, res) => {
     try {
-        let { to, text } = req.body;
+        let { to, text } = sanitizeInput(req.body);
         const nexmo = new Nexmo({
             apiKey,
             apiSecret
@@ -214,8 +214,8 @@ router.post("/sms", auth, async (req, res) => {
             users.map(user => {
                 to = "91" + user.mobile;
                 nexmo.message.sendSms("Nexmo", to, text);
-                sendRes(res, 200);
             });
+            sendRes(res, 200);
         }
         else {
             to = "91" + to;
@@ -233,7 +233,7 @@ router.post("/sms", auth, async (req, res) => {
  */
 router.post("/email", auth, async (req, res) => {
     try {
-        let { to, subject, text } = req.body;
+        let { to, subject, text } = sanitizeInput(req.body);
         let from = "saiindra70@gmail.com";
         if (to === "All Alumni") {
             let users = await User.find({ college: req.user.id });
@@ -241,8 +241,8 @@ router.post("/email", auth, async (req, res) => {
                 to = user.email;
                 const msg = { to, from, subject, text };
                 sendEmail(msg);
-                sendRes(res, 200);
             });
+            sendRes(res, 200);
         } 
         else {
             const msg = { to, from, subject, text };
