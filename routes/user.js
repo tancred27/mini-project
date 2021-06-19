@@ -4,6 +4,7 @@ const User = require("../models/user");
 const College = require("../models/college");
 const auth = require("../middleware/auth");
 const Event = require("../models/events");
+const bcrypt = require("bcryptjs");
 
 /**
  * @route GET /api/user/
@@ -38,7 +39,6 @@ router.get('/info/:id', auth, async(req, res) => {
  * @desc fetch contact info of college of logged in user
  */
 router.get('/collegeInfo', auth, async(req, res) => {
-    console.log("hi");
     try {
         let user = await User.findById(req.user.id).select('-password');
         let college = await College.findById(user.college);
@@ -117,12 +117,14 @@ router.put("/", auth, async (req, res) => {
     if (user.email !== email && await User.find({ email })) {
        return res.status(400).json({ msg: "User with given email aready exists! "});
     }
+    const salt = await bcrypt.genSalt(10);
+    const pass = await bcrypt.hash(password, salt);
     // Build User Object:
     const userFields = {};
     if (email) userFields.email = email;
     if (company) userFields.company = company;
     if (info) userFields.info = info;
-    if (password) userFields.type = password;
+    if (password) userFields.password = pass;
     try {
         user = await User.findByIdAndUpdate(user._id, { $set: userFields }, { new: true }).select("-password");
         res.status(200).json({ user, msg: "Update Success!" });
