@@ -70,7 +70,7 @@ const Profile = (props) => {
                         {type === "college" && !currentUser.verified && 
                             <div className="btn verify" onClick={onClick}><i className="fas fa-check-circle"></i> Verify user</div>
                         } 
-                        {user._id !== userProfile._id && <Link to={`/contact/${userProfile._id}`} className="btn contact"><i className="fas fa-paper-plane"></i> Contact</Link>}
+                        {user && user._id !== userProfile._id && <Link to={`/contact/${userProfile._id}`} className="btn contact"><i className="fas fa-paper-plane"></i> Contact</Link>}
                     </div>
                 </div>
                 <div className="profile-info">
