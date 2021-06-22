@@ -55,8 +55,8 @@ const Profile = (props) => {
     
     let userProfile = type === "user" ? currentProfile : currentUser;
     
-    return !userProfile? (
-        <Fallback />
+    return !userProfile ? (
+        <Fallback /> 
     ) : (
         <div className="profile-container">
             <div className="profile-card">

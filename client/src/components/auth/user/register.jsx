@@ -6,7 +6,7 @@ import Alert from "../../layout/alert/alert";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-const Register = ({ display, history }) => {
+const Register = ({ display }) => {
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
     const { error, register, clearErrors, isAuthenticated } = authContext;
@@ -26,7 +26,7 @@ const Register = ({ display, history }) => {
             getColleges();
         }
         // eslint-disable-next-line
-    }, [history, isAuthenticated, colleges]);
+    }, [isAuthenticated, colleges]);
 
     const [user, setUser] = useState({
         name: "",
@@ -69,7 +69,7 @@ const Register = ({ display, history }) => {
         }
     };
 
-    return display ? (
+    return display ? ( 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
             <Alert />
             <div className="heading">Register as an alumnus</div><br />
@@ -87,7 +87,7 @@ const Register = ({ display, history }) => {
                             <input className="form-input" type="number" name="mobile" value={mobile} onChange={onChange} required />
                         </div>
                         <div>
-                            <div className="register-label"><i class="fas fa-university"></i> College</div>
+                            <div className="register-label"><i className="fas fa-university"></i> College</div>
                             <select name="college" value={college} onChange={onChange} required>
                                 <option>--Select--</option>
                                 {colleges && colleges.map((college) => (
@@ -106,7 +106,7 @@ const Register = ({ display, history }) => {
                             <div className="register-label"><i className="fas fa-calendar-week"></i> Year of passing out</div>
                             <input className="form-input" type="month" name="year" value={year} onChange={onChange} required />
                             <div className="register-label"><i className="fas fa-building"></i> Company</div>
-                            <input className="form-input" type="text" name="company" value={company} onChange={onChange} required />
+                            <input className="form-input" type="text" name="company" value={company} onChange={onChange} autoComplete="company" required />
                         </div>
                         <div>
                             <div className="register-label"><i className="fas fa-calendar-week"></i> Employment info/experience</div>
@@ -114,19 +114,19 @@ const Register = ({ display, history }) => {
                             <div className="register-label"><i className="fas fa-key"></i> Password</div>
                             <div className="password">
                                 <div style={{ width: "90%" }}>
-                                    <input style={{ width: "100%", fontSize: "16px" }} type={visible && password ? "text" : "password"} name="password" value={password} onChange={onChange} required /> 
+                                    <input style={{ width: "100%", fontSize: "16px" }} type={visible && password ? "text" : "password"} name="password" value={password} onChange={onChange} autoComplete="new-password" required /> 
                                 </div>
                                 <div onClick={() => setVisible(!visible)} style={{ width: "10%", cursor: "pointer", display: password ? "block" : "none" }}>
-                                    <i class={`fas fa-eye${visible ? "" : "-slash"}`}></i>
+                                    <i className={`fas fa-eye${visible ? "" : "-slash"}`}></i>
                                 </div>
                             </div>
                             <div className="register-label"><i className="fas fa-key"></i> Confirm Password</div>
                             <div className="password">
                                 <div style={{ width: "90%" }}>
-                                    <input style={{ width: "100%", fontSize: "16px" }} type={confirmPassVisible && confirmPass ? "text" : "password"} name="confirmPass" value={confirmPass} onChange={onChange} required /> 
+                                    <input style={{ width: "100%", fontSize: "16px" }} type={confirmPassVisible && confirmPass ? "text" : "password"} name="confirmPass" value={confirmPass} onChange={onChange} autoComplete="none" required /> 
                                 </div>
                                 <div onClick={() => setConfirmPassVisible(!confirmPassVisible)} style={{ width: "10%", cursor: "pointer", display: confirmPass ? "block" : "none" }}>
-                                    <i class={`fas fa-eye${confirmPassVisible ? "" : "-slash"}`}></i>
+                                    <i className={`fas fa-eye${confirmPassVisible ? "" : "-slash"}`}></i>
                                 </div>
                             </div>
                         </div>

@@ -96,7 +96,7 @@ const Contact = (props) => {
                 <div className="contact-form">
                     <form onSubmit={onSubmitEmail}>
                         <div className="label"><i className="fas fa-envelope"></i> Receiver</div>
-                        <input className="form-input" type="text" name="to" value={id === "all" ? "All Alumni" : userProfile.email} required />
+                        <input className="form-input" type="text" readOnly value={id === "all" ? "All Alumni" : userProfile.email} required />
                         <div className="label"><i className="fas fa-calendar-check"></i> Subject</div>
                         <input className="form-input" type="text" name="subject" value={emailState.subject} onChange={onEmailChange} required />
                         <div className="label"><i className="fas fa-pen-alt"></i> Body</div>
@@ -118,7 +118,7 @@ const Contact = (props) => {
                 <div className="contact-form">
                     <form onSubmit={onSubmitSms}>
                         <div className="label"><i className="fas fa-mobile-alt"></i> Receiver</div>
-                        <input className="form-input" type="text" name="to" value={id === "all" ? "All Alumni" : userProfile.mobile} required />
+                        <input className="form-input" type="text" readOnly value={id === "all" ? "All Alumni" : userProfile.mobile} required />
                         <div className="label"><i className="fas fa-pen-alt"></i> Text</div>
                         <textarea name="text" cols="38" rows="6" value={smsState.text} onChange={onSmsChange} required></textarea>
                         <br /><br />

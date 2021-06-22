@@ -12,13 +12,14 @@ const Update = (props) => {
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
     const { isAuthenticated, user, loadUser, updateProfile, error, clearErrors } = authContext;
+
     const [form, setForm] = useState({
         email: user ? user.email : "",
         company: user ? user.company : "",
         info: user ? user.info : "",
         password: ""
     });
-
+    
     useEffect(() => {
         if (!isAuthenticated) {
             if (localStorage.getItem("token")) {
@@ -32,6 +33,14 @@ const Update = (props) => {
         if (error) {
             setAlert(error.msg, error.type, 5000);
             clearErrors();
+        }
+        if (user) {
+            setForm({
+                email: user.email,
+                company: user.company,
+                info: user.info,
+                password: ""
+            });
         }
         // eslint-disable-next-line
     }, [isAuthenticated, error, user]);

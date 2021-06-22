@@ -29,19 +29,19 @@
 
 .main-img-connect {
   object-fit: contain;
-  width: 400px;
+  width: 75%;
 }
 
 .main-img {
   object-fit: contain;
-  width: 1350px;
+  width: 100%;
 }
 
 .main-img-grad {
   transform: translateY(50px);
   z-index: -1;
   object-fit: contain;
-  width: 400px;
+  width: 75%;
 }
 
 .para-header {
