@@ -79,7 +79,7 @@ router.post("/user/login", async (req, res) => {
         return res.status(400).json({ "msg": "Error : Invalid credentials!" });
     }
     if(!user.activated) {
-        return res.json({ "msg": "Error : Account has not been activated yet, please check your email!"});
+        return res.status(400).json({ "msg": "Error : Account has not been activated yet, please check your email!"});
     }
     const payload = {
         user: {
