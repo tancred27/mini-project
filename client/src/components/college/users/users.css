@@ -1,5 +1,5 @@
 .users-container {
-  min-height: 50vh;
+  min-height: 80vh;
   width: 100%;
 }
 
@@ -18,7 +18,7 @@
 .alumni-img {
   margin-top: 100px;
   object-fit: contain;
-  width: 50%;
+  width: 40%;
 }
 
 :root {
@@ -26,20 +26,50 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 15rem;
   width: 80%;
+  overflow: hidden;
   align-items: center;
   justify-content: space-between;
   background-color: #e5e5e5;
-  border-radius: 15px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
-.card:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+.card:after {
+  content: "";
+  position: absolute;
+  width: 33rem;
+  height: 33rem;
+  border-radius: 50%;
+  transform: translate(-95%, -22%);
+  background-color: rgba(170, 102, 204, 0.8);
+  transition: 0.6s;
+}
+
+.img-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  justify-content: center;
+  z-index: 2;
+  position: absolute;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-500%, -50%);
+  transition: 0.6s;
+}
+
+.card:hover:after {
+  transform: translateY(-22%);
+}
+
+.card:hover .img-icon {
+  transform: translate(-50%, -50%);
 }
 
 .profile {
@@ -92,6 +122,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 5%;
+  margin-bottom: 50px;
 }
 
 @media only screen and (max-width: 1350px) {
@@ -103,5 +134,9 @@
 @media only screen and (max-width: 1020px) {
   .grid {
     grid-template-columns: repeat(1, 1fr);
+  }
+  .card:after {
+    width: 50rem;
+    height: 50rem;
   }
 }

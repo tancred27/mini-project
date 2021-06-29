@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import CollegeContext from "./CollegeContext";
 import UserContext from '../user/UserContext';
+import "./filter.css";
 
 const AlumniFilter = ({ type, auth }) => {
     const collegeContext = useContext(CollegeContext);
@@ -39,24 +40,13 @@ const AlumniFilter = ({ type, auth }) => {
     }
 
     return (
-        <form style={style}>
-            <input style={inputStyle} ref={text} type="text" placeholder="Search for a user..." onChange={onChange} />
+        <form>
+            <div className="search-bar">
+                <i className="fas fa-search"></i> &nbsp;
+                <input ref={text} type="text" placeholder="Search for a user..." onChange={onChange} />
+            </div>
         </form>
     );
 };
 
-const style = {
-    border: "1px solid black",
-    width: "80%",
-    padding: "5px"
-};
-
-const inputStyle = {
-    width: "100%",
-    backgroundColor: "#e5e5e5",
-    border: "none",
-    outline: "none",
-    lineHeight: "1",
-    font: "400 16px poppins, sans-serif"
-};
 export default AlumniFilter;

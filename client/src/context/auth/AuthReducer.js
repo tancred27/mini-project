@@ -24,7 +24,6 @@ const AuthReducer = (state, action) => {
         
         case LOGIN_SUCCESS: 
             localStorage.setItem("token", action.payload.token);
-            console.log("hi");
             return {
                 ...state,
                 isAuthenticated: true,

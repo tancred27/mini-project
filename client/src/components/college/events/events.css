@@ -43,6 +43,9 @@
 
 .heading {
   margin-top: 10px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
 }
 
 .event {

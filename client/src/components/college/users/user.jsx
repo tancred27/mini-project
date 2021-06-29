@@ -12,6 +12,7 @@ const User = ({ user }) => {
 
     return (
         <Link to={`/profile/${user._id}`} onClick={onClick} className="card">
+            <div className="img-icon"><i className="fas fa-address-card fa-2x"></i>&nbsp;&nbsp;View Profile</div>
             <div className="profile-img">
                 <img className="profile" src={`https://robohash.org/${user._id}`} alt="me" />
             </div>
