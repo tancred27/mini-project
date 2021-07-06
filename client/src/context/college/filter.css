@@ -10,7 +10,7 @@
 }
 
 .search-bar input::placeholder {
-  color: #333;
+  color: black;
 }
 
 .search-bar {
