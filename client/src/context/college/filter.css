@@ -3,13 +3,14 @@
   outline: none;
   line-height: 1;
   background-color: rgba(170, 102, 204, 0.1);
+  color: #333;
   font: 400 20px poppins, sans-serif;
   width: 100%;
   padding: 5px;
 }
 
 .search-bar input::placeholder {
-  color: black;
+  color: #333;
 }
 
 .search-bar {
