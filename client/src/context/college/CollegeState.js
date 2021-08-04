@@ -19,6 +19,8 @@ import {
     CLEAR_CURRENT_USER
 } from "../types";
 
+const API = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "/api";
+
 const config = {
     headers: {
         "Content-Type": "application/json"
@@ -52,7 +54,7 @@ const CollegeState = (props) => {
 
     const getUsers = async() => {
         try {
-            const res = await axios.get(`/api/college/users`);
+            const res = await axios.get(`${API}/college/users`);
             dispatch({
                 type: GET_USERS,
                 payload: res.data
@@ -64,7 +66,7 @@ const CollegeState = (props) => {
 
     const getUser = async(id) => {
         try {
-            const res = await axios.get(`/api/user/info/${id}`);
+            const res = await axios.get(`${API}/user/info/${id}`);
             dispatch({
                 type: GET_USER,
                 payload: res.data
@@ -76,7 +78,7 @@ const CollegeState = (props) => {
 
     const getAlumni = async() => {
         try {
-            const res = await axios.get(`/api/college/alumni`);
+            const res = await axios.get(`${API}/college/alumni`);
             dispatch({
                 type: GET_ALUMNI,
                 payload: res.data
@@ -102,7 +104,7 @@ const CollegeState = (props) => {
 
     const verifyUser = async(id) => {
         try {
-            const res = await axios.get(`/api/college/verify/${id}`);
+            const res = await axios.get(`${API}/college/verify/${id}`);
             dispatch({
                 type: VERIFY_USER,
                 payload: res.data
@@ -118,7 +120,7 @@ const CollegeState = (props) => {
 
     const addEvent = async(formData) => {
         try {
-            const res = await axios.post(`/api/college/events`, formData, config);
+            const res = await axios.post(`${API}/college/events`, formData, config);
             dispatch({
                 type: ADD_EVENT,
                 payload: res.data
@@ -130,7 +132,7 @@ const CollegeState = (props) => {
 
     const editEvent = async(id, formData) => {
         try {
-            const res = await axios.put(`/api/college/events/${id}`, formData, config);
+            const res = await axios.put(`${API}/college/events/${id}`, formData, config);
             dispatch({
                 type: EDIT_EVENT,
                 payload: res.data
@@ -142,7 +144,7 @@ const CollegeState = (props) => {
 
     const deleteEvent = async(id, formData) => {
         try {
-            await axios.delete(`/api/college/events/${id}`, formData, config);
+            await axios.delete(`${API}/college/events/${id}`, formData, config);
             dispatch({
                 type: DELETE_EVENT,
                 payload: id

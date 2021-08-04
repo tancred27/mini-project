@@ -11,6 +11,8 @@ import {
     CLEAR_ALUMNI_FILTER
 } from "../types";
 
+const API = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "/api";
+
 const UserState = (props) => {
     const initialState = {
         loadingCollegeAlumni: true,
@@ -26,7 +28,7 @@ const UserState = (props) => {
 
     const setCollegeEvents = async() => {
         try { 
-            const res = await axios.get(`/api/user/events`);
+            const res = await axios.get(`${API}/user/events`);
             dispatch({
                 type: GET_EVENTS,
                 payload: res.data
@@ -38,7 +40,7 @@ const UserState = (props) => {
 
     const setCollegeAlumni = async() => {
         try { 
-            const res = await axios.get(`/api/user/alumni`);
+            const res = await axios.get(`${API}/user/alumni`);
             dispatch({
                 type: SET_ALUMNI,
                 payload: res.data
@@ -49,7 +51,7 @@ const UserState = (props) => {
     };
 
     const setCurrentProfile = async(id, type) => {
-        let url = type === "college" ? `/api/user/info/${id}` : `/api/user/collegeInfo/`;
+        let url = type === "college" ? `${API}/user/info/${id}` : `${API}/user/collegeInfo/`;
         try {
             const res = await axios.get(url);
             dispatch({

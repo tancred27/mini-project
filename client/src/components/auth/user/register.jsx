@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 const Register = ({ display }) => {
+    const API = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "/api";
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
     const { error, register, clearErrors, isAuthenticated } = authContext;
@@ -15,7 +16,7 @@ const Register = ({ display }) => {
 
     useEffect(() => {
         const getColleges = async() => {
-            const res = await axios.get("/api/college/list");
+            const res = await axios.get(`${API}/college/list`);
             setColleges(res.data);
         }
         if (error) {

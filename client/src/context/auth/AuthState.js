@@ -17,6 +17,8 @@ import {
     UPDATE_FAIL
 } from "../types";
 
+const API = process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL : "/api";
+
 const config = {
     headers: {
         "Content-Type": "application/json"
@@ -39,7 +41,7 @@ const AuthState = (props) => {
             setAuthToken(localStorage.token);
         }
         try {
-            const res = await axios.get(`/api/${type}`);
+            const res = await axios.get(`${API}/${type}`);
             dispatch({ 
                 type: USER_LOADED,
                 payload: res.data,
@@ -55,7 +57,7 @@ const AuthState = (props) => {
 
     const register = async(formData, type) => {
         try {
-            await axios.post(`/api/auth/${type}/register`, formData, config);
+            await axios.post(`${API}/auth/${type}/register`, formData, config);
             dispatch({
                 type: REGISTER_SUCCESS,
                 payload: "Registration success! Please open the link sent to your email to activate your account!",
@@ -70,7 +72,7 @@ const AuthState = (props) => {
 
     const login = async(formData, type) => {
         try {
-            const res = await axios.post(`/api/auth/${type}/login`, formData, config);
+            const res = await axios.post(`${API}/auth/${type}/login`, formData, config);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data,
@@ -95,7 +97,7 @@ const AuthState = (props) => {
 
     const sendEmail = async(formData) => {
         try {
-            await axios.post(`/api/auth/email`, formData, config);
+            await axios.post(`${API}/auth/email`, formData, config);
         } catch(error) {
             console.log(error);
         }
@@ -103,7 +105,7 @@ const AuthState = (props) => {
 
     const sendSms = async(formData) => {
         try {
-            await axios.post(`/api/auth/sms`, formData, config);
+            await axios.post(`${API}/auth/sms`, formData, config);
         } catch(error) {
             console.log(error);
         }
@@ -111,7 +113,7 @@ const AuthState = (props) => {
 
     const updateProfile = async(formData) => {
         try {
-            const res = await axios.put(`/api/user/`, formData, config);
+            const res = await axios.put(`${API}/user/`, formData, config);
             console.log(res.data);
             dispatch({
                 type: UPDATE_PROFILE,

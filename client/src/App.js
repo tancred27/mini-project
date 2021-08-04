@@ -7,6 +7,7 @@ import AlertState from "./context/alert/AlertState";
 import CollegeState from "./context/college/CollegeState";
 import UserState from "./context/user/UserState";
 import setAuthToken from "./utils/setAuthToken";
+import ScrollToTop from "./scroll";
 import Fallback from "./fallback";
 import "./App.css";
 
@@ -28,6 +29,7 @@ const App = () => {
             <Router>
               <Navbar />
               <Suspense fallback={<Fallback />}>
+                <ScrollToTop />
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/users" component={Users} />
