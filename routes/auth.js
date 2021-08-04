@@ -12,6 +12,7 @@ const auth = require("../middleware/auth");
 const Nexmo = require("nexmo");
 const apiKey = config.get("apiKey");
 const apiSecret = config.get("apiSecret");
+const emailUrl = process.env.NODE_ENV === "production" ? "https://api2.sethw.me" : "http://localhost:5000";
 
 const sendEmail = (msg) => {
     sgMail
@@ -54,7 +55,7 @@ router.post("/user/register", async (req, res) => {
                 to: email,
                 from: "saiindra70@gmail.com",
                 subject: "ATS account activation",
-                text: `Kindly activate your account by clicking on the link - http://localhost:5000/api/auth/user/activate/${doc._id}`
+                text: `Kindly activate your account by clicking on the link - ${emailUrl}/api/auth/user/activate/${doc._id}`
             };
             sendEmail(msg);
             sendRes(res, 200);
@@ -136,7 +137,7 @@ router.post("/college/register", async (req, res) => {
             to: email,
             from: "saiindra70@gmail.com",
             subject: `ATS account activation - ${collegeName}`,
-            text: `Kindly activate your account by clicking on the link - http://localhost:5000/api/auth/college/activate/${doc._id}`
+            text: `Kindly activate your account by clicking on the link - ${emailUrl}/api/auth/college/activate/${doc._id}`
         };
         sendEmail(msg);
         sendRes(res, 200);
